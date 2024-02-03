@@ -8,6 +8,7 @@
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
 // @grant			GM.getValue
+// @grant			GM.deleteValue
 //
 // Created with love using Gorilla
 // ==/UserScript==
@@ -798,7 +799,7 @@
                 elements.forEach((element) => {
                     element.style.display = 'none';
                 });
-                const sorted = matchSorter(elements, query, { keys: [(element) => element.innerText.trim()] });
+                const sorted = matchSorter(elements, query, { keys: [(element) => element.childNodes[1].textContent?.trim() ?? ''] });
                 let previousElement = null;
                 sorted.forEach((element) => {
                     element.style.display = '';
@@ -821,10 +822,10 @@
     }
 
     function exportState() {
-        return JSON.stringify({
+        return {
             discoveries: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.discoveries,
             elements: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
-        });
+        };
     }
     async function init() {
         const instruction = document.querySelector('.instruction');
@@ -836,23 +837,37 @@
             instruction.appendChild(importState);
             instruction.appendChild(document.createTextNode('Crafting any elements will overwrite your state!'));
             importState.addEventListener('click', async (e) => {
-                const state = await GM.getValue('state');
-                if (typeof state === 'string') {
-                    const { discoveries, elements } = JSON.parse(state);
+                const discoveries = await GM.getValue('discoveries');
+                const elements = await GM.getValue('elements');
+                if (discoveries !== undefined && elements !== undefined) {
                     const gameData = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data;
                     gameData.discoveries = discoveries;
                     gameData.elements = elements;
+                    instruction.remove();
                 }
-                instruction.remove();
             });
         }
-        const observer = new MutationObserver(async (mutations) => {
-            await GM.setValue('state', exportState());
+        const observer = new MutationObserver(async () => {
+            const { discoveries, elements } = exportState();
+            await GM.setValue('discoveries', discoveries);
+            await GM.setValue('elements', elements);
         });
         observer.observe(document.querySelector('.sidebar'), { childList: true, subtree: true });
-        const state = await GM.getValue('state');
-        if (state === undefined) {
-            await GM.setValue('state', exportState());
+        const discoveries = await GM.getValue('discoveries');
+        const elements = await GM.getValue('elements');
+        if (discoveries === undefined || elements === undefined) {
+            const oldState = await GM.getValue('state');
+            if (oldState !== undefined) {
+                const oldStateParsed = JSON.parse(oldState);
+                await GM.setValue('discoveries', oldStateParsed.discoveries);
+                await GM.setValue('elements', oldStateParsed.elements);
+                await GM.deleteValue('state');
+            }
+            else {
+                const initialState = exportState();
+                await GM.setValue('discoveries', initialState.discoveries);
+                await GM.setValue('elements', initialState.elements);
+            }
         }
     }
 
