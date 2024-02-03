@@ -856,10 +856,10 @@
         }
     }
 
-    setTimeout(async () => {
+    window.addEventListener('load', async () => {
         init$2();
         init$1();
         await init();
-    }, 1000);
+    }, false);
 
 })();
