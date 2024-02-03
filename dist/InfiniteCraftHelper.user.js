@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			1.4
+// @version			1.5
 // @author			Mikarific
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
@@ -822,12 +822,12 @@
             const items = elements.getItems();
             if (query !== '') {
                 items.forEach((item) => {
-                    item.style.display = 'none';
+                    item.style.visibility = 'hidden';
                 });
                 const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
                 let previousElement = null;
                 sorted.forEach((item) => {
-                    item.style.display = '';
+                    item.style.visibility = '';
                     if (previousElement !== null) {
                         previousElement.after(item);
                     }
@@ -842,7 +842,7 @@
             }
             else {
                 items.forEach((item) => {
-                    item.style.display = '';
+                    item.style.visibility = '';
                 });
                 elements.sort.click();
                 setTimeout(() => {

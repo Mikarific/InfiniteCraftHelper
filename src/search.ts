@@ -20,12 +20,12 @@ export function init(elements: elements) {
 		const items = elements.getItems();
 		if (query !== '') {
 			items.forEach((item) => {
-				item.style.display = 'none';
+				item.style.visibility = 'hidden';
 			});
 			const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
 			let previousElement: HTMLDivElement | null = null;
 			sorted.forEach((item) => {
-				item.style.display = '';
+				item.style.visibility = '';
 				if (previousElement !== null) {
 					previousElement.after(item);
 				} else {
@@ -38,7 +38,7 @@ export function init(elements: elements) {
 			}
 		} else {
 			items.forEach((item) => {
-				item.style.display = '';
+				item.style.visibility = '';
 			});
 			elements.sort.click();
 			setTimeout(() => {
