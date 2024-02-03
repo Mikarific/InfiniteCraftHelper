@@ -13,13 +13,16 @@ export type elements = {
 	instruction: HTMLDivElement;
 	sidebarControls: HTMLDivElement;
 	sort: HTMLDivElement;
-	sideControls: HTMLDivElement;
+	helperControls: HTMLDivElement;
 	logo: HTMLImageElement;
 };
 
 window.addEventListener(
 	'load',
 	async () => {
+		const helperControls = document.createElement('div');
+		helperControls.classList.add('helper-controls');
+		document.querySelector('.side-controls')?.before(helperControls);
 		const elements: elements = {
 			instances: document.querySelector('.instances') as HTMLDivElement,
 			sidebar: document.querySelector('.sidebar') as HTMLDivElement,
@@ -30,7 +33,7 @@ window.addEventListener(
 			instruction: document.querySelector('.instruction') as HTMLDivElement,
 			sidebarControls: document.querySelector('.sidebar-controls') as HTMLDivElement,
 			sort: document.querySelector('.sort') as HTMLDivElement,
-			sideControls: document.querySelector('.side-controls') as HTMLDivElement,
+			helperControls: helperControls,
 			logo: document.querySelector('.logo') as HTMLImageElement,
 		};
 

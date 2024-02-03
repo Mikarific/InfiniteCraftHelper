@@ -8,7 +8,7 @@ export function init(elements: elements) {
 	const download = document.createElement('img');
 	download.src = downloadIcon.trim();
 	download.classList.add('download-icon');
-	elements.sideControls.prepend(download);
+	elements.helperControls.prepend(download);
 	download.addEventListener('click', async (e) => {
 		const downloadLink = document.createElement('a');
 		downloadLink.download = 'infinitecraft.json';

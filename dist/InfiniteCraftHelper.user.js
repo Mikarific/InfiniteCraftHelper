@@ -79,6 +79,17 @@
         pointer-events: none;
     }
 
+    .helper-controls {
+        position: fixed;
+        left: 7px;
+        bottom: 7px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        display: flex;
+        grid-gap: 19px;
+    }
+
     .download-icon {
         width: 21px;
         cursor: pointer;
@@ -947,7 +958,7 @@
         const download = document.createElement('img');
         download.src = downloadIcon.trim();
         download.classList.add('download-icon');
-        elements.sideControls.prepend(download);
+        elements.helperControls.prepend(download);
         download.addEventListener('click', async (e) => {
             const downloadLink = document.createElement('a');
             downloadLink.download = 'infinitecraft.json';
@@ -974,6 +985,9 @@
     }
 
     window.addEventListener('load', async () => {
+        const helperControls = document.createElement('div');
+        helperControls.classList.add('helper-controls');
+        document.querySelector('.side-controls')?.before(helperControls);
         const elements = {
             instances: document.querySelector('.instances'),
             sidebar: document.querySelector('.sidebar'),
@@ -984,7 +998,7 @@
             instruction: document.querySelector('.instruction'),
             sidebarControls: document.querySelector('.sidebar-controls'),
             sort: document.querySelector('.sort'),
-            sideControls: document.querySelector('.side-controls'),
+            helperControls: helperControls,
             logo: document.querySelector('.logo'),
         };
         init$5();

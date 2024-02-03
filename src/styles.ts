@@ -59,6 +59,17 @@ const css = `
         pointer-events: none;
     }
 
+    .helper-controls {
+        position: fixed;
+        left: 7px;
+        bottom: 7px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        display: flex;
+        grid-gap: 19px;
+    }
+
     .download-icon {
         width: 21px;
         cursor: pointer;
