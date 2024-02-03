@@ -1,0 +1,20 @@
+{
+	"name": "infinitecrafthelper",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"build": "bunx gorilla --input ./src/index.ts --output ./dist/InfiniteCraftHelper.user.js --config ./gorilla.json"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/greasemonkey": "^4.0.7",
+		"eslint": "^8.56.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"gorilla-build": "^0.1.16",
+		"match-sorter": "^6.3.3"
+	}
+}

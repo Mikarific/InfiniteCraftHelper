@@ -1,0 +1,28 @@
+{
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"root": true,
+	"env": {
+		"node": true,
+		"es6": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2021
+	},
+	"rules": {
+		"@typescript-eslint/no-var-requires": "off",
+		"curly": ["error", "all"],
+		"handle-callback-err": "off",
+		"max-nested-callbacks": ["error", { "max": 4 }],
+		"no-console": "off",
+		"no-empty-function": "error",
+		"no-inline-comments": "error",
+		"no-lonely-if": "error",
+		"no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
+		"no-var": "error",
+		"prefer-const": "error",
+		"spaced-comment": "error",
+		"yoda": "error"
+	}
+}
