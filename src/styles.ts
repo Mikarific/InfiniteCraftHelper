@@ -58,6 +58,18 @@ const css = `
         user-select: none;
         pointer-events: none;
     }
+
+    .download-icon {
+        width: 21px;
+        cursor: pointer;
+        opacity: .8;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+    .download-icon:hover {
+        transform: scale(1.05)
+    }
 `;
 
 export function init() {
