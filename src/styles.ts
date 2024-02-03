@@ -47,6 +47,17 @@ const css = `
         background:linear-gradient(0deg,#d6fcff,#fff 90%);
         border: 1px solid #91a8c1
     }
+
+    .logo {
+        position: fixed;
+        top: 10px;
+        right: 320px;
+        width: 80px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        pointer-events: none;
+    }
 `;
 
 export function init() {
