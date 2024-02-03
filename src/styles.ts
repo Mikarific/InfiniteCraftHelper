@@ -51,6 +51,6 @@ const css = `
 
 export function init() {
 	const style = document.createElement('style');
-	style.appendChild(document.createTextNode(css));
+	style.appendChild(document.createTextNode(css.trim()));
 	document.getElementsByTagName('head')[0].appendChild(style);
 }
