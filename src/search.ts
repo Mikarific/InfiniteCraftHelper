@@ -13,7 +13,7 @@ export function init(elements: elements) {
 	searchBar.classList.add('search-bar');
 	searchBarContainer.appendChild(searchBar);
 
-	elements.sideControls.style.backgroundColor = '#fff';
+	elements.sidebarControls.style.backgroundColor = '#fff';
 
 	searchBar.addEventListener('input', (e) => {
 		const query = (e.target as HTMLInputElement).value;
@@ -24,15 +24,18 @@ export function init(elements: elements) {
 			});
 			const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
 			let previousElement: HTMLDivElement | null = null;
-			sorted.forEach((element) => {
-				(element as HTMLDivElement).style.display = '';
+			sorted.forEach((item) => {
+				item.style.display = '';
 				if (previousElement !== null) {
-					previousElement.after(element);
+					previousElement.after(item);
 				} else {
-					elements.items.prepend(element);
+					elements.items.prepend(item);
 				}
-				previousElement = element as HTMLDivElement;
+				previousElement = item;
 			});
+			if ((e as InputEvent).inputType === 'insertText' && query.length === 1) {
+				elements.sidebar.scrollTo(0, 0);
+			}
 		} else {
 			items.forEach((item) => {
 				item.style.display = '';

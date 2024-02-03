@@ -816,7 +816,7 @@
         searchBar.placeholder = 'Search...';
         searchBar.classList.add('search-bar');
         searchBarContainer.appendChild(searchBar);
-        elements.sideControls.style.backgroundColor = '#fff';
+        elements.sidebarControls.style.backgroundColor = '#fff';
         searchBar.addEventListener('input', (e) => {
             const query = e.target.value;
             const items = elements.getItems();
@@ -826,16 +826,19 @@
                 });
                 const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
                 let previousElement = null;
-                sorted.forEach((element) => {
-                    element.style.display = '';
+                sorted.forEach((item) => {
+                    item.style.display = '';
                     if (previousElement !== null) {
-                        previousElement.after(element);
+                        previousElement.after(item);
                     }
                     else {
-                        elements.items.prepend(element);
+                        elements.items.prepend(item);
                     }
-                    previousElement = element;
+                    previousElement = item;
                 });
+                if (e.inputType === 'insertText' && query.length === 1) {
+                    elements.sidebar.scrollTo(0, 0);
+                }
             }
             else {
                 items.forEach((item) => {
