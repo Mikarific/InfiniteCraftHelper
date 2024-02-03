@@ -1,9 +1,11 @@
+import type { elements } from './index';
+
 import { matchSorter } from './lib/sort';
 
-export function init() {
+export function init(elements: elements) {
 	const searchBarContainer = document.createElement('div');
 	searchBarContainer.classList.add('search-bar-container');
-	document.querySelector('.sidebar')?.prepend(searchBarContainer);
+	elements.sidebar.prepend(searchBarContainer);
 
 	const searchBar = document.createElement('input');
 	searchBar.type = 'text';
@@ -11,33 +13,33 @@ export function init() {
 	searchBar.classList.add('search-bar');
 	searchBarContainer.appendChild(searchBar);
 
-	(document.querySelector('.sidebar-controls') as HTMLDivElement).style.backgroundColor = '#fff';
+	elements.sideControls.style.backgroundColor = '#fff';
 
 	searchBar.addEventListener('input', (e) => {
 		const query = (e.target as HTMLInputElement).value;
-		const elements = [...document.querySelectorAll('.items div.item')];
+		const items = elements.getItems();
 		if (query !== '') {
-			elements.forEach((element) => {
-				(element as HTMLDivElement).style.display = 'none';
+			items.forEach((item) => {
+				item.style.display = 'none';
 			});
-			const sorted = matchSorter(elements, query, { keys: [(element) => ((element as HTMLDivElement).childNodes[1] as Text).textContent?.trim() ?? ''] });
+			const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
 			let previousElement: HTMLDivElement | null = null;
 			sorted.forEach((element) => {
 				(element as HTMLDivElement).style.display = '';
 				if (previousElement !== null) {
 					previousElement.after(element);
 				} else {
-					document.querySelector('.items')?.prepend(element);
+					elements.items.prepend(element);
 				}
 				previousElement = element as HTMLDivElement;
 			});
 		} else {
-			elements.forEach((element) => {
-				(element as HTMLDivElement).style.display = '';
+			items.forEach((item) => {
+				item.style.display = '';
 			});
-			(document.querySelector('.sort') as HTMLDivElement).click();
+			elements.sort.click();
 			setTimeout(() => {
-				(document.querySelector('.sort') as HTMLDivElement).click();
+				elements.sort.click();
 			}, 1);
 		}
 	});

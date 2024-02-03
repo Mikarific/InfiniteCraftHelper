@@ -1,3 +1,5 @@
+import type { elements } from './index';
+
 declare const window: any;
 
 function exportState() {
@@ -7,15 +9,14 @@ function exportState() {
 	};
 }
 
-export async function init() {
-	const instruction = document.querySelector('.instruction');
-	if (instruction !== null) {
+export async function init(domElements: elements) {
+	if (domElements.instruction !== null) {
 		const importState = document.createElement('button');
 		importState.innerText = 'Import State';
 		importState.classList.add('import-state');
-		instruction.innerHTML = '';
-		instruction.appendChild(importState);
-		instruction.appendChild(document.createTextNode('Crafting any elements will overwrite your state!'));
+		domElements.instruction.innerHTML = '';
+		domElements.instruction.appendChild(importState);
+		domElements.instruction.appendChild(document.createTextNode('Crafting any elements will overwrite your state!'));
 
 		importState.addEventListener('click', async (e) => {
 			const discoveries = await GM.getValue('discoveries');
@@ -24,7 +25,7 @@ export async function init() {
 				const gameData = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data;
 				gameData.discoveries = discoveries;
 				gameData.elements = elements;
-				instruction.remove();
+				domElements.instruction.remove();
 			}
 		});
 	}
@@ -34,7 +35,7 @@ export async function init() {
 		await GM.setValue('discoveries', discoveries);
 		await GM.setValue('elements', elements);
 	});
-	observer.observe(document.querySelector('.sidebar') as HTMLDivElement, { childList: true, subtree: true });
+	observer.observe(domElements.sidebar, { childList: true, subtree: true });
 
 	const discoveries = await GM.getValue('discoveries');
 	const elements = await GM.getValue('elements');
