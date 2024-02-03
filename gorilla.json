@@ -5,5 +5,7 @@
 	"version": "1.0",
 	"author": "Mikarific",
 	"description": "A script to add combination saving, element searching, and more to Infinite Craft.",
-	"grant": ["GM.setValue", "GM.getValue", "GM.deleteValue"]
+	"grant": ["GM.setValue", "GM.getValue", "GM.deleteValue"],
+	"downloadURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js",
+	"updateURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js"
 }
