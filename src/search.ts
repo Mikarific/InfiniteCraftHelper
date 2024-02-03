@@ -20,7 +20,7 @@ export function init() {
 			elements.forEach((element) => {
 				(element as HTMLDivElement).style.display = 'none';
 			});
-			const sorted = matchSorter(elements, query, { keys: [(element) => (element as HTMLDivElement).innerText.trim()] });
+			const sorted = matchSorter(elements, query, { keys: [(element) => ((element as HTMLDivElement).childNodes[1] as Text).textContent?.trim() ?? ''] });
 			let previousElement: HTMLDivElement | null = null;
 			sorted.forEach((element) => {
 				(element as HTMLDivElement).style.display = '';
