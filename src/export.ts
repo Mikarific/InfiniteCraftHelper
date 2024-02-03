@@ -13,10 +13,14 @@ export function init() {
 		downloadLink.href = URL.createObjectURL(
 			new Blob(
 				[
-					JSON.stringify({
-						discoveries: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.discoveries,
-						elements: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
-					}),
+					JSON.stringify(
+						{
+							discoveries: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.discoveries,
+							elements: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
+						},
+						null,
+						'\t',
+					),
 				],
 				{ type: 'application/json' },
 			),
