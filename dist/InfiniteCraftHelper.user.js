@@ -803,10 +803,14 @@
                 });
                 const sorted = matchSorter(elements, query, { keys: [(element) => element.childNodes[1].textContent?.trim() ?? ''] });
                 let previousElement = null;
+                console.log(sorted.map((element) => element.childNodes[1].textContent?.trim()));
                 sorted.forEach((element) => {
                     element.style.display = '';
                     if (previousElement !== null) {
-                        element.before(previousElement);
+                        previousElement.after(element);
+                    }
+                    else {
+                        document.querySelector('.items')?.prepend(element);
                     }
                     previousElement = element;
                 });
