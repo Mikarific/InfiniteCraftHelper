@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			1.8
+// @version			1.8.1
 // @author			Mikarific
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
@@ -1045,22 +1045,12 @@
             for (const element of fileContents.elements) {
                 if (!Object.keys(element).includes('text'))
                     continue;
-                if (!Object.keys(element).includes('emoji'))
-                    continue;
-                if (Object.keys(fileContents).includes('discoveries')) {
-                    elements.push({
-                        text: element.text,
-                        emoji: element.emoji,
-                        discovered: fileContents.discoveries.includes(element.text),
-                    });
-                }
-                else {
-                    elements.push({
-                        text: element.text,
-                        emoji: element.emoji,
-                        discovered: Object.keys(element).includes('discovered') ? element.discovered : false,
-                    });
-                }
+                const toPush = {
+                    text: element.text,
+                    emoji: Object.keys(element).includes('emoji') ? element.emoji : '⬜',
+                    discovered: !Object.keys(element).includes('discovered') ? (Object.keys(fileContents).includes('discoveries') ? fileContents.discoveries.includes(element.text) : false) : element.discovered,
+                };
+                elements.push(toPush);
             }
             localStorage.setItem('infinite-craft-data', JSON.stringify({
                 elements: elements,

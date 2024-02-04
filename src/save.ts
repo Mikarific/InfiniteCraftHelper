@@ -37,20 +37,16 @@ export function init(elements: elements) {
 
 		for (const element of fileContents.elements) {
 			if (!Object.keys(element).includes('text')) continue;
-			if (!Object.keys(element).includes('emoji')) continue;
-			if (Object.keys(fileContents).includes('discoveries')) {
-				elements.push({
-					text: element.text,
-					emoji: element.emoji,
-					discovered: fileContents.discoveries.includes(element.text),
-				});
-			} else {
-				elements.push({
-					text: element.text,
-					emoji: element.emoji,
-					discovered: Object.keys(element).includes('discovered') ? element.discovered : false,
-				});
-			}
+			const toPush: {
+				text: string;
+				emoji: string;
+				discovered: boolean;
+			} = {
+				text: element.text,
+				emoji: Object.keys(element).includes('emoji') ? element.emoji : '⬜',
+				discovered: !Object.keys(element).includes('discovered') ? (Object.keys(fileContents).includes('discoveries') ? fileContents.discoveries.includes(element.text) : false) : element.discovered,
+			};
+			elements.push(toPush);
 		}
 
 		localStorage.setItem(
