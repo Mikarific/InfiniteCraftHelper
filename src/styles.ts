@@ -93,6 +93,10 @@ const css = `
         opacity: .8;
     }
 
+    #import-save {
+        display: none;
+    }
+
     .search-hidden {
         height: 0px !important;
         border: 0px !important;

@@ -3,11 +3,10 @@ import * as mutations from './lib/mutations';
 import * as sort from './lib/sort';
 
 import * as search from './search';
-import * as state from './state';
 import * as copy from './copy';
 
 import * as settings from './settings';
-import * as download from './download';
+import * as save from './save';
 import * as theme from './theme';
 import * as logo from './logo';
 
@@ -54,13 +53,10 @@ window.addEventListener(
 		styles.init(elements);
 		mutations.init(elements);
 		sort.init(elements);
-
 		search.init(elements);
-		await state.init(elements);
 		copy.init();
-
 		settings.init(elements);
-		download.init(elements);
+		save.init(elements);
 		theme.init(elements);
 		logo.init(elements);
 	},

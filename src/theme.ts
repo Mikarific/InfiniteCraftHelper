@@ -30,7 +30,7 @@ const darkCSS = `
 		border-color: var(--border) !important;
 	}
 
-	.item {
+	.item, .instruction {
 		color: var(--text) !important;
 		
 	}
@@ -73,7 +73,9 @@ export function init(elements: elements) {
 		themeImage.src = lightmode.trim();
 	} else {
 		themeImage.src = darkmode.trim();
+		document.getElementsByTagName('head')[0].appendChild(darkStyles);
 	}
+	handleParticleTheme(elements);
 	themeContainer.appendChild(themeImage);
 
 	elements.settingsContent.appendChild(themeContainer);
