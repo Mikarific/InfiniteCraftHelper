@@ -1,49 +1,44 @@
 import type { elements } from './index';
 
-import { matchSorter } from './lib/sort';
+import { matchSorter } from './lib/match';
+import * as sort from './lib/sort';
+
+declare const window: any;
+
+function sortElementsInDom(sorted: HTMLDivElement[], itemsListElement: HTMLDivElement) {
+	let previousElement: HTMLDivElement | null = null;
+	for (const item of sorted) {
+		item.classList.remove('search-hidden');
+		if (previousElement !== null) {
+			previousElement.after(item);
+		} else {
+			itemsListElement.prepend(item);
+		}
+		previousElement = item;
+	}
+}
 
 export function init(elements: elements) {
-	const searchBarContainer = document.createElement('div');
-	searchBarContainer.classList.add('search-bar-container');
-	elements.sidebar.prepend(searchBarContainer);
-
 	const searchBar = document.createElement('input');
 	searchBar.type = 'text';
 	searchBar.placeholder = 'Search...';
 	searchBar.classList.add('search-bar');
-	searchBarContainer.appendChild(searchBar);
-
-	elements.sidebarControls.style.backgroundColor = '#fff';
+	elements.searchBarContainer.appendChild(searchBar);
 
 	searchBar.addEventListener('input', (e) => {
 		const query = (e.target as HTMLInputElement).value;
 		const items = elements.getItems();
 		if (query !== '') {
-			items.forEach((item) => {
-				item.style.visibility = 'hidden';
-			});
+			for (const item of items) {
+				item.classList.add('search-hidden');
+			}
 			const sorted = matchSorter(items, query, { keys: [(item) => item.childNodes[1].textContent?.trim() ?? ''] });
-			let previousElement: HTMLDivElement | null = null;
-			sorted.forEach((item) => {
-				item.style.visibility = '';
-				if (previousElement !== null) {
-					previousElement.after(item);
-				} else {
-					elements.items.prepend(item);
-				}
-				previousElement = item;
-			});
+			sortElementsInDom(sorted, elements.items);
 			if ((e as InputEvent).inputType === 'insertText' && query.length === 1) {
 				elements.sidebar.scrollTo(0, 0);
 			}
 		} else {
-			items.forEach((item) => {
-				item.style.visibility = '';
-			});
-			elements.sort.click();
-			setTimeout(() => {
-				elements.sort.click();
-			}, 1);
+			sortElementsInDom(Array.from(sort.sortedByTime), elements.items);
 		}
 	});
 }
