@@ -1,4 +1,5 @@
 import type { elements } from './index';
+import * as sort from './lib/sort';
 
 declare const window: any;
 
@@ -29,7 +30,7 @@ export function init(elements: elements) {
 		const fileContents = JSON.parse(await file.text());
 		if (!Object.keys(fileContents).includes('elements')) return;
 
-		const elements: {
+		const saveFile: {
 			text: string;
 			emoji?: string;
 			discovered: boolean;
@@ -46,17 +47,19 @@ export function init(elements: elements) {
 				discovered: !Object.keys(element).includes('discovered') ? (Object.keys(fileContents).includes('discoveries') ? fileContents.discoveries.includes(element.text) : false) : element.discovered,
 			};
 			if (Object.keys(element).includes('emoji')) toPush.emoji = element.emoji;
-			elements.push(toPush);
+			saveFile.push(toPush);
 		}
 
 		localStorage.setItem(
 			'infinite-craft-data',
 			JSON.stringify({
-				elements: elements,
+				elements: saveFile,
 			}),
 		);
 
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = elements;
+		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = saveFile;
+
+		sort.init(elements);
 	});
 
 	const downloadContainer = document.createElement('div');
