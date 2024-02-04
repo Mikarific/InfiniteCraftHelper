@@ -31,7 +31,7 @@ export function init(elements: elements) {
 
 		const elements: {
 			text: string;
-			emoji: string;
+			emoji?: string;
 			discovered: boolean;
 		}[] = [];
 
@@ -39,13 +39,13 @@ export function init(elements: elements) {
 			if (!Object.keys(element).includes('text')) continue;
 			const toPush: {
 				text: string;
-				emoji: string;
+				emoji?: string;
 				discovered: boolean;
 			} = {
 				text: element.text,
-				emoji: Object.keys(element).includes('emoji') ? element.emoji : '⬜',
 				discovered: !Object.keys(element).includes('discovered') ? (Object.keys(fileContents).includes('discoveries') ? fileContents.discoveries.includes(element.text) : false) : element.discovered,
 			};
+			if (Object.keys(element).includes('emoji')) toPush.emoji = element.emoji;
 			elements.push(toPush);
 		}
 
