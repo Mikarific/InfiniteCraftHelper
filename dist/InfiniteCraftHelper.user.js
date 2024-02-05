@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			1.8.5
+// @version			1.8.6
 // @author			Mikarific
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
@@ -127,30 +127,16 @@
         font-size: 0px;
     }
 
-    .instruction {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        pointer-events: auto !important;
-    }
-
-    .logo {
-        position: fixed;
-        top: 10px;
-        right: 320px;
-        width: 80px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-        pointer-events: none;
-    }
-
     .site-title {
         z-index: 1;
     }
 
     .side-controls {
         z-index: 1;
+    }
+
+    .instance-emoji {
+        pointer-events: none;
     }
 `;
     function init$5(elements) {
@@ -165,6 +151,7 @@
                     node.addEventListener('mousedown', (e) => {
                         e.preventDefault();
                         if (e instanceof MouseEvent && e.button === 1 && e.target instanceof HTMLDivElement && e.target.childNodes.length >= 2) {
+                            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
                             const targetElement = e.target;
                             const { x, y, width, height } = targetElement.getBoundingClientRect();
                             const data = {
@@ -344,10 +331,10 @@
     const darkStyles = document.createElement('style');
     darkStyles.appendChild(document.createTextNode(darkCSS.trim()));
     function init$1(elements) {
+        theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
         if (localStorage.getItem('theme') === null) {
             localStorage.setItem('theme', theme);
         }
-        theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
         const themeContainer = document.createElement('div');
         themeContainer.classList.add('setting');
         const themeText = document.createTextNode('Toggle Theme');

@@ -51,10 +51,10 @@ const darkStyles = document.createElement('style');
 darkStyles.appendChild(document.createTextNode(darkCSS.trim()));
 
 export function init(elements: elements) {
+	theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
 	if (localStorage.getItem('theme') === null) {
 		localStorage.setItem('theme', theme);
 	}
-	theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
 
 	const themeContainer = document.createElement('div');
 	themeContainer.classList.add('setting');

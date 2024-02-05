@@ -9,6 +9,7 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 				node.addEventListener('mousedown', (e) => {
 					e.preventDefault();
 					if (e instanceof MouseEvent && (e as MouseEvent).button === 1 && e.target instanceof HTMLDivElement && e.target.childNodes.length >= 2) {
+						window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
 						const targetElement = e.target as HTMLDivElement;
 						const { x, y, width, height } = targetElement.getBoundingClientRect();
 						const data = {

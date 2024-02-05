@@ -109,30 +109,16 @@ const css = `
         font-size: 0px;
     }
 
-    .instruction {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        pointer-events: auto !important;
-    }
-
-    .logo {
-        position: fixed;
-        top: 10px;
-        right: 320px;
-        width: 80px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-        pointer-events: none;
-    }
-
     .site-title {
         z-index: 1;
     }
 
     .side-controls {
         z-index: 1;
+    }
+
+    .instance-emoji {
+        pointer-events: none;
     }
 `;
 
