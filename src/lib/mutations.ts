@@ -1,5 +1,4 @@
 import { setMiddleClickOnMutations } from '../copy';
-import { prepareNewElementToSort, addNewElementToSort } from './sort';
 import type { elements } from '../index';
 
 declare const window: any;
@@ -11,14 +10,12 @@ export function init(elements: elements) {
 		const response = await getCraftResponse(...args);
 		const first = args[0];
 		const second = args[1];
-		const result = response.result;
-		prepareNewElementToSort(result);
+		const result = response;
+		console.log(`${first.text} + ${second.text} = ${result.result}`);
 		return response;
 	};
 	// New Element Added to DOM
-	const newElementObserver = new MutationObserver((mutations) => {
-		addNewElementToSort(mutations, elements);
-	});
+	const newElementObserver = new MutationObserver((mutations) => {});
 	newElementObserver.observe(elements.items, { childList: true, subtree: true });
 
 	// New Instance Added to DOM

@@ -5,7 +5,7 @@ const settingsIcon = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNv
 export function init(elements: elements) {
 	const settingsDetails = document.createElement('details');
 	settingsDetails.classList.add('settings-details');
-	elements.searchBarContainer.appendChild(settingsDetails);
+	elements.sidebarControls.appendChild(settingsDetails);
 
 	const settingsSummary = document.createElement('summary');
 	settingsSummary.classList.add('settings-summary');

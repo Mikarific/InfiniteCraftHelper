@@ -1,5 +1,4 @@
 import type { elements } from './index';
-import * as sort from './lib/sort';
 
 declare const window: any;
 
@@ -58,8 +57,6 @@ export function init(elements: elements) {
 		);
 
 		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = saveFile;
-
-		sort.init(elements);
 	});
 
 	const downloadContainer = document.createElement('div');

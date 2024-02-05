@@ -1,10 +1,5 @@
 import * as styles from './styles';
 import * as mutations from './lib/mutations';
-import * as sort from './lib/sort';
-
-import * as search from './search';
-import * as copy from './copy';
-
 import * as settings from './settings';
 import * as save from './save';
 import * as theme from './theme';
@@ -14,7 +9,6 @@ export type elements = {
 	styles: HTMLStyleElement;
 	instances: HTMLDivElement;
 	sidebar: HTMLDivElement;
-	searchBarContainer: HTMLDivElement;
 	settingsContent: HTMLDivElement;
 	items: HTMLDivElement;
 	getItems: () => HTMLDivElement[];
@@ -28,16 +22,12 @@ export type elements = {
 window.addEventListener(
 	'load',
 	async () => {
-		const searchBarContainer = document.createElement('div');
-		searchBarContainer.classList.add('search-bar-container');
-		document.querySelector('.sidebar')?.prepend(searchBarContainer);
 		const settingsContent = document.createElement('div');
 		settingsContent.classList.add('settings-content');
 		const elements: elements = {
 			styles: document.createElement('style'),
 			instances: document.querySelector('.instances') as HTMLDivElement,
 			sidebar: document.querySelector('.sidebar') as HTMLDivElement,
-			searchBarContainer: searchBarContainer,
 			settingsContent: settingsContent,
 			items: document.querySelector('.items') as HTMLDivElement,
 			getItems: () => {
@@ -49,12 +39,10 @@ window.addEventListener(
 			particles: document.querySelector('.particles') as HTMLCanvasElement,
 			logo: document.querySelector('.logo') as HTMLImageElement,
 		};
+		elements.items.before(elements.sidebarControls);
 
 		styles.init(elements);
 		mutations.init(elements);
-		sort.init(elements);
-		search.init(elements);
-		copy.init();
 		settings.init(elements);
 		save.init(elements);
 		theme.init(elements);

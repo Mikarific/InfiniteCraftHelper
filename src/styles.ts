@@ -9,27 +9,27 @@ const css = `
         --selected-gradient: linear-gradient(0deg,#d6fcff,#fff 90%);
     }
 
-    .search-bar-container {
+    .sidebar-controls {
         display: flex;
         position: sticky;
+        height: auto !important;
         top: 0px;
-        background: var(--base);
+        background-color: var(--base);
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
         padding: 9px;
     }
 
-    .search-bar {
+    .sidebar-input {
+        height: 40px !important;
         margin: 4px;
-        padding: 8px 8px 7px;
         border-radius: 5px;
-        display: inline-block;
-        border: 1px solid var(--border);
-        width: 100%;
+        border: 1px solid var(--border) !important;
         font-family: Roboto, sans-serif;
-        font-size: 15.4px;
-        background-color: var(--base);
+        background-size: 21px 21px !important;
+        background-position: 10px 10px !important;
+        background-color: var(--base) !important;
         color: var(--text);
     }
 
@@ -107,10 +107,6 @@ const css = `
 
     .search-hidden .item-emoji {
         font-size: 0px;
-    }
-
-    .sidebar-controls {
-        background-color: var(--base);
     }
 
     .instruction {
