@@ -14,7 +14,7 @@ const css = `
         position: sticky;
         height: auto !important;
         top: 0px;
-        background-color: var(--base);
+        background-color: var(--base) !important;
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
@@ -91,6 +91,7 @@ const css = `
     .setting > img {
         height: 1em;
         opacity: .8;
+        aspect-ratio: 1 / 1;
     }
 
     #import-save {

@@ -1,0 +1,10 @@
+[server]
+# The Server Name
+name = "InfiniteCraftHelper"
+# The Server Hostname
+hostname = "0.0.0.0"
+# The Server Port
+port = "7135"
+
+# The "Origin" headers that requests can come from. Used for CSRF Prevention.
+allowedOrigins = ["https://neal.fun/infinite-craft/"]
