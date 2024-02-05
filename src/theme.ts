@@ -14,7 +14,7 @@ const darkCSS = `
 		--selected-gradient: linear-gradient(0deg,#3b0764,#18181b 90%) !important;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .sort-img {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .sort-img, .particles {
         filter: invert(1) !important;
     }
 
@@ -22,7 +22,11 @@ const darkCSS = `
 		color: var(--text) !important;
 	}
 
-	.particles, .items, .item, .mobile-sound {
+	.particles {
+		background-color: #e7e7e4 !important;
+	}
+
+	.items, .item, .mobile-sound {
 		background-color: var(--base) !important;
 	}
 
@@ -46,16 +50,6 @@ const darkCSS = `
 const darkStyles = document.createElement('style');
 darkStyles.appendChild(document.createTextNode(darkCSS.trim()));
 
-function handleParticleTheme(elements: elements) {
-	const ctx = elements.particles.getContext('2d');
-	if (ctx === null) return;
-	if (theme === 'light') {
-		ctx.filter = 'invert(0%)';
-	} else {
-		ctx.filter = 'invert(100%)';
-	}
-}
-
 export function init(elements: elements) {
 	if (localStorage.getItem('theme') === null) {
 		localStorage.setItem('theme', theme);
@@ -75,7 +69,6 @@ export function init(elements: elements) {
 		themeImage.src = darkmode.trim();
 		document.getElementsByTagName('head')[0].appendChild(darkStyles);
 	}
-	handleParticleTheme(elements);
 	themeContainer.appendChild(themeImage);
 
 	elements.settingsContent.appendChild(themeContainer);
@@ -89,11 +82,6 @@ export function init(elements: elements) {
 			themeImage.src = darkmode.trim();
 			document.getElementsByTagName('head')[0].appendChild(darkStyles);
 		}
-		handleParticleTheme(elements);
 		localStorage.setItem('theme', theme);
-	});
-
-	window.addEventListener('resize', () => {
-		handleParticleTheme(elements);
 	});
 }
