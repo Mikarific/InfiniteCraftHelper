@@ -13,7 +13,7 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 						const targetElement = e.target as HTMLDivElement;
 						const { x, y, width, height } = targetElement.getBoundingClientRect();
 						const data = {
-							id: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId,
+							id: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
 							text: targetElement.childNodes[1].textContent?.trim(),
 							emoji: targetElement.childNodes[0].textContent?.trim(),
 							discovered: targetElement.classList.contains('instance-discovered'),

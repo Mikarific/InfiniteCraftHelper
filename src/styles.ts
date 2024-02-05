@@ -113,6 +113,17 @@ const css = `
         z-index: 1;
     }
 
+    .version {
+        position: fixed;
+        bottom: 35px;
+        right: 314px;
+        user-select: none;
+        pointer-events: none;
+        color: var(--text);
+        font-family: Roboto, sans-serif;
+        font-size: 16px;
+    }
+
     .side-controls {
         z-index: 1;
     }
