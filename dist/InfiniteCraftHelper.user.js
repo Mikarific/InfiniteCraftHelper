@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			1.8.7
+// @version			1.8.8
 // @author			Mikarific
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
@@ -133,13 +133,20 @@
 
     .version {
         position: fixed;
-        bottom: 35px;
-        right: 314px;
+        top: 80px;
+        right: 320px;
         user-select: none;
         pointer-events: none;
         color: var(--text);
         font-family: Roboto, sans-serif;
-        font-size: 16px;
+        font-size: 11px;
+    }
+
+    @media screen and (min-width: 1150px) {
+        .version {
+            top: 85px;
+            right: 362px;
+        }
     }
 
     .side-controls {
