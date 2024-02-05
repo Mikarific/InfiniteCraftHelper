@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			1.8.3
+// @version			1.8.4
 // @author			Mikarific
 // @description		A script to add combination saving, element searching, and more to Infinite Craft.
 // @grant			GM.setValue
