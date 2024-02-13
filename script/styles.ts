@@ -9,6 +9,43 @@ const css = `
         --selected-gradient: linear-gradient(0deg,#d6fcff,#fff 90%);
     }
 
+    .item {
+        margin: 4px;
+        cursor: pointer;
+        padding: 8px 8px 7px;
+        border-radius: 5px;
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        border: 1px solid var(--border);
+        transition: background .15s linear;
+        background: var(--base);
+        line-height: 1em;
+    }
+
+    .pinned {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 9px;
+        border: 0px;
+        border-bottom: 1px;
+        border-style: solid;
+        border-color: var(--border);
+    }
+
+    .pinned-title {
+        margin: 4px;
+        font-size: 15px;
+        font-family: Roboto, sans-serif;
+        color: var(--text);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        pointer-events: none;
+    }
+
     .sidebar-controls {
         display: flex;
         position: sticky;
@@ -19,6 +56,10 @@ const css = `
         margin-left: auto;
         margin-right: auto;
         padding: 9px;
+        border: 0px;
+        border-bottom: 1px;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     .sidebar-input {
@@ -77,6 +118,8 @@ const css = `
         padding: 8px 8px 7px;
         border: 1px solid var(--border);
         border-radius: 5px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
         user-select: none;
         line-height: 1em;
         font-family: Roboto, sans-serif;
@@ -118,6 +161,8 @@ const css = `
         position: fixed;
         top: 80px;
         right: 320px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
         user-select: none;
         pointer-events: none;
         color: var(--text);
@@ -134,6 +179,103 @@ const css = `
 
     .side-controls {
         z-index: 1;
+    }
+
+    .random, .discoveries-icon {
+        width: 21px;
+        cursor: pointer;
+        opacity: .8;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .random:hover, .discoveries-icon:hover {
+        transform: scale(1.05);
+    }
+
+    .modal {
+        max-width: 75%;
+        max-height: 75%;
+        margin: auto;
+        padding-top: 0px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        background-color: var(--base);
+    }
+
+    .modal::backdrop {
+        background-color: rgb(0 0 0 / .5);
+    }
+
+    .modal-header {
+        position: sticky;
+        top: 0;
+        display: flex;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        justify-content: space-between;
+        background-color: var(--base);
+    }
+
+    .modal-title {
+        font-size: 20px;
+        font-family: Roboto, sans-serif;
+        line-height: 35px;
+        color: var(--text);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .modal-empty {
+        font-size: 15px;
+        font-family: Roboto, sans-serif;
+        color: var(--text);
+        text-align: center;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    .display-item {
+        margin: 4px;
+        padding: 8px 8px 7px;
+        border-radius: 5px;
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        border: 1px solid var(--border);
+        background: var(--base);
+        line-height: 1em;
+        white-space: nowrap;
+        color: var(--text);
+    }
+
+    .recipe {
+        display: flex;
+        align-items: center;
+        color: var(--text);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .close-button {
+        height: 35px;
+        padding: 8px 8px 7px;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        cursor: pointer;
+        opacity: .8;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+    .close-button:hover {
+        transform: scale(1.05)
     }
 
     .instance-emoji {

@@ -3,7 +3,7 @@
 	"bracketSpacing": true,
 	"experimentalTernaries": true,
 	"jsxSingleQuote": true,
-	"printWidth": 4294967296,
+	"printWidth": 120,
 	"semi": true,
 	"singleQuote": true,
 	"trailingComma": "all",

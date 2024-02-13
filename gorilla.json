@@ -2,10 +2,10 @@
 	"name": "Infinite Craft Helper",
 	"namespace": "mikarific.com",
 	"match": ["https://neal.fun/infinite-craft/*"],
-	"version": "1.8.9",
+	"version": "2.0.0",
 	"author": "Mikarific",
-	"description": "A script to add combination saving, element searching, and more to Infinite Craft.",
-	"grant": ["GM.setValue", "GM.getValue", "GM.deleteValue"],
+	"description": "A script that adds various useful features to Infinite Craft.",
+	"grant": ["GM.setValue", "GM.getValue", "GM.xmlHttpRequest"],
 	"downloadURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js",
 	"updateURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js"
 }

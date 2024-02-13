@@ -176,3 +176,4 @@ out
 bun.lockb
 package-lock.json
 config.toml
+recipes.db

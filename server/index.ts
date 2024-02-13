@@ -6,6 +6,14 @@ import chalk from 'chalk';
 
 import { verifyRequestOrigin } from './handlers/csrf';
 import ratelimit from './handlers/ratelimit';
+import { ActivityType, Client, Collection, EmbedBuilder, GatewayIntentBits } from 'discord.js';
+
+declare module 'discord.js' {
+	export interface Client {
+		commands: Collection<unknown, any>;
+		cooldowns: Collection<unknown, any>;
+	}
+}
 
 const requestFileSchema = z.object({
 	pathname: z.string().startsWith('/'),
@@ -14,7 +22,9 @@ const requestFileSchema = z.object({
 });
 type RequestFile = z.infer<typeof requestFileSchema>;
 
-const requestFiles = readdirSync('./server/requests', { recursive: true }).filter((value) => value.toString().endsWith('.ts'));
+const requestFiles = readdirSync('./server/requests', { recursive: true }).filter((value) =>
+	value.toString().endsWith('.ts'),
+);
 
 const requestsSchema = z.map(z.string().startsWith('/'), requestFileSchema);
 type Requests = z.infer<typeof requestsSchema>;
@@ -130,4 +140,95 @@ Bun.serve({
 		});
 	},
 });
-console.log(`${chalk.green.bold('[HTTP]')} ${config.server.name} listening on ${chalk.green(config.server.hostname)}:${chalk.green(config.server.port)}.`);
+console.log(
+	`${chalk.green.bold('[HTTP]')} ${config.server.name} listening on ${chalk.green(
+		config.server.hostname,
+	)}:${chalk.green(config.server.port)}.`,
+);
+
+const bot = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
+
+bot.commands = new Collection();
+bot.cooldowns = new Collection();
+
+const commandFiles = readdirSync('./server/commands', { recursive: true }).filter((value) =>
+	value.toString().endsWith('.ts'),
+);
+
+for (const file of commandFiles) {
+	const command = await import(`./commands/${file}`);
+	bot.commands.set(command.data.name, command);
+}
+
+bot.once('ready', async () => {
+	console.log(`${chalk.blue.bold('[Discord]')} Logged in as ${chalk.green(bot.user?.tag)}.`);
+	bot.user?.setActivity('Crafting elements...', { type: ActivityType.Custom });
+});
+
+bot.on('interactionCreate', async (interaction) => {
+	if (interaction.isChatInputCommand()) {
+		const command = bot.commands.get(interaction.commandName);
+		if (!command) return;
+		const { cooldowns } = bot;
+		if (!cooldowns.has(command.data.name)) {
+			cooldowns.set(command.data.name, new Collection());
+		}
+
+		const now = Date.now();
+		const timestamps = cooldowns.get(command.data.name);
+		const cooldownAmount = (command.cooldown || 1) * 1000;
+
+		if (timestamps.has(interaction.user.id)) {
+			const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+			if (now < expirationTime) {
+				const timeLeft = (expirationTime - now) / 1000;
+				const embed = new EmbedBuilder()
+					.setColor(0xffffff)
+					.setTitle('⏰ Wait!')
+					.setDescription(
+						`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`/${command.data.name}\` command.`,
+					);
+				await interaction.reply({ embeds: [embed] });
+				return;
+			}
+		}
+
+		timestamps.set(interaction.user.id, now);
+		setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+
+		try {
+			await command.execute(interaction);
+		} catch (e) {
+			console.error(e);
+			const embed = new EmbedBuilder()
+				.setColor(0xffffff)
+				.setTitle('❌ Oops!')
+				.setDescription('Something went wrong while executing the command.');
+			if (interaction.replied || interaction.deferred) {
+				await interaction.editReply({ embeds: [embed] });
+			} else {
+				await interaction.reply({ embeds: [embed], ephemeral: true });
+			}
+		}
+	}
+	if (interaction.isAutocomplete()) {
+		const command = bot.commands.get(interaction.commandName);
+		if (!command) return;
+		try {
+			await command.autocomplete(interaction);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+	if (interaction.isButton()) {
+		const command = bot.commands.get(interaction.message.interaction?.commandName);
+		if (!command) return;
+		try {
+			await command.button(interaction);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+});
+
+bot.login(config.discord.token);
