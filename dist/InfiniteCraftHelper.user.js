@@ -1666,6 +1666,38 @@
         });
     }
 
+    let disableCanvasDots = false;
+    function init$b(elements) {
+        disableCanvasDots = localStorage.getItem('disableCanvasDots') === 'false' ? false : true;
+        const disableCanvasDotsContainer = document.createElement('div');
+        disableCanvasDotsContainer.classList.add('setting');
+        const disableCanvasDotsText = document.createTextNode('Disable Dots');
+        disableCanvasDotsContainer.appendChild(disableCanvasDotsText);
+        const disableCanvasDotsImage = document.createElement('img');
+        if (!disableCanvasDots) {
+            disableCanvasDotsImage.src = dontContributeIcon.trim();
+        }
+        else {
+            disableCanvasDotsImage.src = contributeIcon.trim();
+            window.unsafeWindow.requestAnimationFrame = function() {};
+        }
+        disableCanvasDotsContainer.appendChild(disableCanvasDotsImage);
+        elements.settingsContent.appendChild(disableCanvasDotsContainer);
+        disableCanvasDotsContainer.addEventListener('click', (e) => {
+            if (!disableCanvasDots) {
+                disableCanvasDots = true;
+                disableCanvasDotsImage.src = contributeIcon.trim();
+                localStorage.setItem('disableCanvasDots', 'true');
+            }
+            else {
+                disableCanvasDots = false;
+                disableCanvasDotsImage.src = dontContributeIcon.trim();
+                localStorage.setItem('disableCanvasDots', 'false');
+                window.unsafeWindow.requestAnimationFrame = function() {};
+            };
+        });
+    }
+
     function init(elements) {
         elements.logo.src = logo.trim();
         const versionNumber = document.createElement('p');
@@ -1706,6 +1738,7 @@
         await init$9(elements);
         init$8(elements);
         init$1(elements);
+        init$b(elements);
         init(elements);
     }, false);
     window.addEventListener('contextmenu', (e) => {
