@@ -17,11 +17,11 @@ const darkCSS = `
 		scrollbar-color: #525252 #262626;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon {
         filter: invert(1) !important;
     }
 
-	.reset, .sort {
+	.reset, .sort, .sidebar-sorting-item {
 		color: var(--text) !important;
 	}
 
@@ -29,11 +29,11 @@ const darkCSS = `
 		background-color: #e7e7e4 !important;
 	}
 
-	.sidebar, .items, .item, .mobile-sound {
+	.sidebar, .items, .item, .mobile-sound, .sidebar-sorting-item {
 		background-color: var(--base) !important;
 	}
 
-	.item, .mobile-sound {
+	.item, .mobile-sound, .sidebar-sorting {
 		border-color: var(--border) !important;
 	}
 
@@ -48,6 +48,14 @@ const darkCSS = `
 
 	.instance {
 		background: linear-gradient(0deg, #170326, #18181b 70%) !important;
+	}
+
+	.sidebar-sorting {
+		background-color: var(--border) !important;
+	}
+
+	.sidebar-discoveries-active {
+		background-color: #262626 !important;
 	}
 `;
 const darkStyles = document.createElement('style');

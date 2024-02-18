@@ -24,6 +24,11 @@ const css = `
         line-height: 1em;
     }
 
+    .item:hover {
+        background: var(--selected-gradient);
+        border: 1px solid var(--border-hover);
+    }
+
     .pinned {
         max-width: 900px;
         margin-left: auto;
@@ -46,7 +51,7 @@ const css = `
         pointer-events: none;
     }
 
-    .sidebar-controls {
+    .sidebar-header {
         display: flex;
         position: sticky;
         height: auto !important;

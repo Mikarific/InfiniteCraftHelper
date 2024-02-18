@@ -2,7 +2,9 @@ import type { elements } from './index';
 
 import { randomIcon } from './lib/assets';
 
-declare const window: any;
+declare const unsafeWindow: any;
+declare const cloneInto: any;
+declare const exportFunction: any;
 
 export function init(elements: elements) {
 	const randomImage = document.createElement('img');
@@ -10,15 +12,15 @@ export function init(elements: elements) {
 	randomImage.classList.add('random');
 	elements.sideControls.appendChild(randomImage);
 	randomImage.addEventListener('click', (e) => {
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
 		const randomElement =
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements[
+			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements[
 				Math.floor(
-					Math.random() * window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.length,
+					Math.random() * unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.length,
 				)
 			];
 		const data = {
-			id: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
+			id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
 			text: randomElement.text,
 			emoji: randomElement.emoji,
 			discovered: randomElement.discovered,
@@ -28,28 +30,32 @@ export function init(elements: elements) {
 			offsetX: 0.5,
 			offsetY: 0.5,
 		};
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = data;
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = cloneInto(
+			data,
+			unsafeWindow,
 		);
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(() => {
-			const randomPosition = Math.random() * Math.PI * 2;
-			const cos = 50 * Math.cos(randomPosition);
-			const sin = 50 * Math.sin(randomPosition);
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(
-				window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
-				(window.innerWidth - window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize) /
-					2 +
-					cos,
-				window.innerHeight / 2 - 40 + sin,
-			);
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(
-				window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
-				data.id,
-			);
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(
-				window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
-			);
-		});
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(
+			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+		);
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(
+			exportFunction(() => {
+				const randomPosition = Math.random() * Math.PI * 2;
+				const cos = 50 * Math.cos(randomPosition);
+				const sin = 50 * Math.sin(randomPosition);
+				unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(
+					unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+					(window.innerWidth - unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize) / 2 +
+						cos,
+					window.innerHeight / 2 - 40 + sin,
+				);
+				unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(
+					unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+					data.id,
+				);
+				unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(
+					unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+				);
+			}, unsafeWindow),
+		);
 	});
 }

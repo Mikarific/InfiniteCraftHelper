@@ -3,14 +3,17 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.0
+// @version			2.0.1
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
-// @grant			GM.setValue
+// @icon			https://i.imgur.com/WlkWOkU.png
 // @grant			GM.getValue
+// @grant			GM.setValue
 // @grant			GM.xmlHttpRequest
+// @grant			unsafeWindow
 // @downloadURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
 // @updateURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
+// @license			MIT
 //
 // Created with love using Gorilla
 // ==/UserScript==
@@ -42,6 +45,11 @@
         line-height: 1em;
     }
 
+    .item:hover {
+        background: var(--selected-gradient);
+        border: 1px solid var(--border-hover);
+    }
+
     .pinned {
         max-width: 900px;
         margin-left: auto;
@@ -64,7 +72,7 @@
         pointer-events: none;
     }
 
-    .sidebar-controls {
+    .sidebar-header {
         display: flex;
         position: sticky;
         height: auto !important;
@@ -315,11 +323,11 @@
                             e.button === 1 &&
                             e.target instanceof HTMLDivElement &&
                             e.target.childNodes.length >= 2) {
-                            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
                             const targetElement = e.target;
                             const { x, y, width, height } = targetElement.getBoundingClientRect();
                             const data = {
-                                id: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
+                                id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
                                 text: targetElement.childNodes[1].textContent?.trim(),
                                 emoji: targetElement.childNodes[0].textContent?.trim(),
                                 discovered: targetElement.classList.contains('instance-discovered'),
@@ -329,12 +337,12 @@
                                 offsetX: 0.5,
                                 offsetY: 0.5,
                             };
-                            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = data;
-                            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
-                            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(() => {
-                                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, e.clientX - width / 2, e.clientY - height / 2);
-                                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
-                            });
+                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = cloneInto(data, unsafeWindow);
+                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
+                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(exportFunction(() => {
+                                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, e.clientX - width / 2, e.clientY - height / 2);
+                                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
+                            }, unsafeWindow));
                         }
                     });
                 }
@@ -495,7 +503,7 @@
         discoveriesEmpty.classList.add('modal-empty');
         discoveriesEmpty.appendChild(document.createTextNode("You don't have any first discoveries!"));
         discoveriesModal.appendChild(discoveriesEmpty);
-        const discoveredElements = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.filter((el) => el.discovered === true);
+        const discoveredElements = cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).filter((el) => el.discovered === true);
         for (const discoveredElement of discoveredElements) {
             addElementToDiscoveries(discoveredElement);
         }
@@ -536,7 +544,7 @@
     function init$7(elements) {
         const settingsDetails = document.createElement('details');
         settingsDetails.classList.add('settings-details');
-        elements.sidebarControls.appendChild(settingsDetails);
+        elements.sidebarHeader.appendChild(settingsDetails);
         const settingsSummary = document.createElement('summary');
         settingsSummary.classList.add('settings-summary');
         settingsDetails.appendChild(settingsSummary);
@@ -599,7 +607,7 @@
             elementDiv.appendChild(elementEmoji);
             elementDiv.appendChild(document.createTextNode(` ${pinnedElement.text} `));
             elementDiv.addEventListener('mousedown', (e) => {
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, pinnedElement);
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, pinnedElement);
             });
             pinnedContainer.appendChild(elementDiv);
         }
@@ -607,7 +615,7 @@
     }
     async function pinElement(element) {
         if (pinnedElements.find((el) => el.text === element.text) === undefined) {
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
             const elementDiv = document.createElement('div');
             elementDiv.classList.add('item');
             const elementEmoji = document.createElement('span');
@@ -616,7 +624,7 @@
             elementDiv.appendChild(elementEmoji);
             elementDiv.appendChild(document.createTextNode(` ${element.text} `));
             elementDiv.addEventListener('mousedown', (e) => {
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, element);
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, element);
             });
             pinnedContainer.appendChild(elementDiv);
             if (pinnedElements.length === 0)
@@ -625,7 +633,7 @@
             await GM.setValue('pinned', JSON.stringify(pinnedElements));
         }
         else {
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
             const elementDiv = Array.from(pinnedContainer.querySelectorAll('.item')).find((el) => el.childNodes[1].textContent?.trim() === element.text);
             elementDiv?.remove();
             if (pinnedElements.length === 1)
@@ -643,14 +651,32 @@
     }
 
     function init$5(elements) {
+        // Detect when fetch is monkeypatched because a certain someone made a tool to upload fake recipes.
+        const iframe = document.createElement('iframe');
+        document.body.appendChild(iframe);
+        const cleanFetch = iframe.contentWindow?.fetch?.toString() ?? '';
+        iframe.remove();
         // New Element Crafted
-        const getCraftResponse = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse;
-        window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse = async (...args) => {
+        const getCraftResponse = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse;
+        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse = exportFunction((...args) => new window.Promise(async (resolve) => {
             const response = await getCraftResponse(...args);
-            const first = args[0];
-            const second = args[1];
-            const result = response;
-            if (contributeToDatabase) {
+            const args0 = args[0].wrappedJSObject === undefined ? args[0] : args[0].wrappedJSObject;
+            const args1 = args[1].wrappedJSObject === undefined ? args[1] : args[1].wrappedJSObject;
+            const ingredients = args0.text.localeCompare(args1.text, 'en') === -1 ? [args0, args1] : [args1, args0];
+            const first = ingredients[0];
+            const second = ingredients[1];
+            const result = {
+                text: response.result,
+                emoji: response.emoji,
+                discovered: response.isNew,
+            };
+            if (first.text === '')
+                return;
+            if (second.text === '')
+                return;
+            if (result.text === '' || result.text === 'Nothing')
+                return;
+            if (contributeToDatabase && unsafeWindow.fetch.toString() === cleanFetch) {
                 GM.xmlHttpRequest({
                     method: 'POST',
                     url: `https://infinitecraft.mikarific.com/recipe`,
@@ -664,7 +690,7 @@
                             emoji: second.emoji,
                         },
                         result: {
-                            text: result.result,
+                            text: result.text,
                             emoji: result.emoji,
                         },
                     }),
@@ -680,25 +706,26 @@
             }, {
                 text: second.text,
                 emoji: second.emoji,
-            }, result.result);
-            if (result.isNew) {
-                addElementToDiscoveries({
-                    text: result.result,
-                    emoji: result.emoji,
-                    discovered: result.isNew,
-                });
+            }, result.text);
+            if (result.discovered) {
+                addElementToDiscoveries(result);
             }
-            console.log(`${first.text} + ${second.text} = ${result.result}`);
-            return response;
-        };
-        const selectElement = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement;
-        window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement = (e, element) => {
-            if (e.button === 2)
-                return openCraftsForElement(element);
-            if (e.altKey)
-                return pinElement(element);
+            console.log(`${first.text} + ${second.text} = ${result.text}`);
+            resolve(response);
+        }), unsafeWindow);
+        const selectElement = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement;
+        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement = exportFunction((e, element) => {
+            element = element.wrappedJSObject === undefined ? element : element.wrappedJSObject;
+            if (e.button === 2) {
+                openCraftsForElement(element);
+                return;
+            }
+            if (e.altKey) {
+                pinElement(element);
+                return;
+            }
             return selectElement(e, element);
-        };
+        }, unsafeWindow);
         const instanceObserver = new MutationObserver((mutations) => {
             setMiddleClickOnMutations(mutations);
         });
@@ -757,7 +784,7 @@
             localStorage.setItem('infinite-craft-data', JSON.stringify({
                 elements: saveFile,
             }));
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = saveFile;
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = cloneInto(saveFile, unsafeWindow);
             await resetCrafts();
             if (Object.keys(fileContents).includes('recipes')) {
                 for (const recipeKey of Object.keys(fileContents.recipes)) {
@@ -773,14 +800,14 @@
                 }
             }
             await resetDiscoveries();
-            const discoveredElements = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.filter((el) => el.discovered === true);
+            const discoveredElements = cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).filter((el) => el.discovered === true);
             for (const discoveredElement of discoveredElements) {
                 addElementToDiscoveries(discoveredElement);
             }
             await resetPinnedElements();
             if (Object.keys(fileContents).includes('pinned')) {
-                for (const pinnedElement of fileContents.pinned) {
-                    pinElement(pinnedElement);
+                for (let pinnedElement of fileContents.pinned) {
+                    pinElement(cloneInto(pinnedElement, unsafeWindow));
                 }
             }
         });
@@ -812,6 +839,29 @@
         });
     }
 
+    /**
+     * The MIT License (MIT)
+     *
+     * Copyright (c) 2015 Marin Atanasov
+     *
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     *
+     * The above copyright notice and this permission notice shall be included in all
+     * copies or substantial portions of the Software.
+     *
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+     * SOFTWARE.
+     */
     const characterMap = {
         À: 'A',
         Á: 'A',
@@ -1524,6 +1574,7 @@
     }
 
     function init$3(elements) {
+        elements.sidebarHeader.prepend(elements.searchBar);
         window.addEventListener('keydown', () => {
             if (document.activeElement !== elements.searchBar) {
                 elements.searchBar.focus();
@@ -1531,22 +1582,35 @@
         });
         elements.searchBar.addEventListener('input', (e) => {
             if (e.inputType === 'insertText' &&
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim().length === 1) {
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim().length === 1) {
                 elements.sidebar.scrollTo(0, 0);
             }
         });
-        window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._computedWatchers.sortedElements.getter =
-            () => {
-                const query = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim();
+        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._computedWatchers.sortedElements.getter =
+            exportFunction(() => {
+                const query = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim();
                 if (query === '') {
-                    return window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements;
+                    if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.showDiscoveredOnly) {
+                        return cloneInto(cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).filter((el) => el.discovered), unsafeWindow);
+                    }
+                    if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'name') {
+                        return cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).sort((a, b) => a.text.localeCompare(b.text));
+                    }
+                    if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'emoji') {
+                        return cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).sort((a, b) => {
+                            const emojiA = a.emoji ?? '⬜';
+                            const emojiB = b.emoji ?? '⬜';
+                            return emojiA.localeCompare(emojiB);
+                        });
+                    }
+                    return unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements;
                 }
                 else {
-                    return matchSorter(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery, {
+                    return cloneInto(matchSorter(cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow), unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery, {
                         keys: ['text'],
-                    });
+                    }), unsafeWindow);
                 }
-            };
+            }, unsafeWindow);
     }
 
     function init$2(elements) {
@@ -1555,10 +1619,10 @@
         randomImage.classList.add('random');
         elements.sideControls.appendChild(randomImage);
         randomImage.addEventListener('click', (e) => {
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
-            const randomElement = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements[Math.floor(Math.random() * window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.length)];
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+            const randomElement = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements[Math.floor(Math.random() * unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.length)];
             const data = {
-                id: window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
+                id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
                 text: randomElement.text,
                 emoji: randomElement.emoji,
                 discovered: randomElement.discovered,
@@ -1568,18 +1632,17 @@
                 offsetX: 0.5,
                 offsetY: 0.5,
             };
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = data;
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
-            window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(() => {
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = cloneInto(data, unsafeWindow);
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
+            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(exportFunction(() => {
                 const randomPosition = Math.random() * Math.PI * 2;
                 const cos = 50 * Math.cos(randomPosition);
                 const sin = 50 * Math.sin(randomPosition);
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, (window.innerWidth - window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize) /
-                    2 +
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, (window.innerWidth - unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize) / 2 +
                     cos, window.innerHeight / 2 - 40 + sin);
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
-                window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
-            });
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
+                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
+            }, unsafeWindow));
         });
     }
 
@@ -1597,11 +1660,11 @@
 		scrollbar-color: #525252 #262626;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon {
         filter: invert(1) !important;
     }
 
-	.reset, .sort {
+	.reset, .sort, .sidebar-sorting-item {
 		color: var(--text) !important;
 	}
 
@@ -1609,11 +1672,11 @@
 		background-color: #e7e7e4 !important;
 	}
 
-	.sidebar, .items, .item, .mobile-sound {
+	.sidebar, .items, .item, .mobile-sound, .sidebar-sorting-item {
 		background-color: var(--base) !important;
 	}
 
-	.item, .mobile-sound {
+	.item, .mobile-sound, .sidebar-sorting {
 		border-color: var(--border) !important;
 	}
 
@@ -1628,6 +1691,14 @@
 
 	.instance {
 		background: linear-gradient(0deg, #170326, #18181b 70%) !important;
+	}
+
+	.sidebar-sorting {
+		background-color: var(--border) !important;
+	}
+
+	.sidebar-discoveries-active {
+		background-color: #262626 !important;
 	}
 `;
     const darkStyles = document.createElement('style');
@@ -1675,14 +1746,17 @@
     }
 
     window.addEventListener('load', async () => {
+        const sidebarHeader = document.createElement('div');
+        sidebarHeader.classList.add('sidebar-header');
         const settingsContent = document.createElement('div');
         settingsContent.classList.add('settings-content');
         const elements = {
             container: document.querySelector('.container'),
-            styles: document.createElement('style'),
             instances: document.querySelector('.instances'),
+            styles: document.createElement('style'),
             sideControls: document.querySelector('.side-controls'),
             sidebar: document.querySelector('.sidebar'),
+            sidebarHeader: sidebarHeader,
             searchBar: document.querySelector('.sidebar-input'),
             settingsContent: settingsContent,
             items: document.querySelector('.items'),
@@ -1690,12 +1764,11 @@
                 return Array.from(document.querySelectorAll('.items div.item'));
             },
             instruction: document.querySelector('.instruction'),
-            sidebarControls: document.querySelector('.sidebar-controls'),
             sort: document.querySelector('.sort'),
             particles: document.querySelector('.particles'),
             logo: document.querySelector('.logo'),
         };
-        elements.items.before(elements.sidebarControls);
+        elements.items.before(elements.sidebarHeader);
         init$a(elements);
         init$5(elements);
         init$7(elements);

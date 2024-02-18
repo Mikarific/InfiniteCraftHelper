@@ -6,7 +6,8 @@ import { addElementToDiscoveries, resetDiscoveries } from './discoveries';
 import { pinElement, pinnedElements, resetPinnedElements } from './pinned';
 import { addElementToCrafts, recipes, resetCrafts } from './crafts';
 
-declare const window: any;
+declare const unsafeWindow: any;
+declare const cloneInto: any;
 
 export function init(elements: elements) {
 	const uploadContainer = document.createElement('label');
@@ -63,7 +64,7 @@ export function init(elements: elements) {
 			}),
 		);
 
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = saveFile;
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = cloneInto(saveFile, unsafeWindow);
 
 		await resetCrafts();
 		if (Object.keys(fileContents).includes('recipes')) {
@@ -85,18 +86,18 @@ export function init(elements: elements) {
 		}
 
 		await resetDiscoveries();
-		const discoveredElements =
-			window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.filter(
-				(el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true,
-			);
+		const discoveredElements = cloneInto(
+			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
+			unsafeWindow,
+		).filter((el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true);
 		for (const discoveredElement of discoveredElements) {
 			addElementToDiscoveries(discoveredElement);
 		}
 
 		await resetPinnedElements();
 		if (Object.keys(fileContents).includes('pinned')) {
-			for (const pinnedElement of fileContents.pinned) {
-				pinElement(pinnedElement);
+			for (let pinnedElement of fileContents.pinned) {
+				pinElement(cloneInto(pinnedElement, unsafeWindow));
 			}
 		}
 	});

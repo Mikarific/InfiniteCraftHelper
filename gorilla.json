@@ -2,10 +2,11 @@
 	"name": "Infinite Craft Helper",
 	"namespace": "mikarific.com",
 	"match": ["https://neal.fun/infinite-craft/*"],
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"author": "Mikarific",
 	"description": "A script that adds various useful features to Infinite Craft.",
-	"grant": ["GM.setValue", "GM.getValue", "GM.xmlHttpRequest"],
+	"icon": "https://i.imgur.com/WlkWOkU.png",
+	"grant": ["GM.getValue", "GM.setValue", "GM.xmlHttpRequest", "unsafeWindow"],
 	"downloadURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js",
 	"updateURL": "https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js"
 }

@@ -3,7 +3,8 @@ import type { elements } from './index';
 
 import { closeIcon, discoveriesIcon } from './lib/assets';
 
-declare const window: any;
+declare const unsafeWindow: any;
+declare const cloneInto: any;
 
 const discoveriesModal = document.createElement('dialog');
 const discoveriesHeader = document.createElement('div');
@@ -36,10 +37,10 @@ export function init(elements: elements) {
 	discoveriesEmpty.appendChild(document.createTextNode("You don't have any first discoveries!"));
 	discoveriesModal.appendChild(discoveriesEmpty);
 
-	const discoveredElements =
-		window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements.filter(
-			(el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true,
-		);
+	const discoveredElements = cloneInto(
+		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
+		unsafeWindow,
+	).filter((el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true);
 
 	for (const discoveredElement of discoveredElements) {
 		addElementToDiscoveries(discoveredElement);

@@ -7,7 +7,7 @@ export let contributeToDatabase = false;
 export function init(elements: elements) {
 	const settingsDetails = document.createElement('details');
 	settingsDetails.classList.add('settings-details');
-	elements.sidebarControls.appendChild(settingsDetails);
+	elements.sidebarHeader.appendChild(settingsDetails);
 
 	const settingsSummary = document.createElement('summary');
 	settingsSummary.classList.add('settings-summary');

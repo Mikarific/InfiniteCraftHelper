@@ -6,71 +6,103 @@ import { contributeToDatabase } from '../settings';
 import { pinElement, resetPinnedElements } from '../pinned';
 import { addElementToCrafts, openCraftsForElement, resetCrafts } from '../crafts';
 
-declare const window: any;
+declare const GM: any;
+declare const unsafeWindow: any;
+declare const exportFunction: any;
 
 export function init(elements: elements) {
+	// Detect when fetch is monkeypatched because a certain someone made a tool to upload fake recipes.
+	const iframe = document.createElement('iframe');
+	document.body.appendChild(iframe);
+	const cleanFetch = iframe.contentWindow?.fetch?.toString() ?? '';
+	iframe.remove();
+
 	// New Element Crafted
-	const getCraftResponse = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse;
-	window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse = async (...args: any) => {
-		const response = await getCraftResponse(...args);
-		const first = args[0];
-		const second = args[1];
-		const result = response;
-		if (contributeToDatabase) {
-			GM.xmlHttpRequest({
-				method: 'POST',
-				url: `https://infinitecraft.mikarific.com/recipe`,
-				data: JSON.stringify({
-					first: {
+	const getCraftResponse = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse;
+	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse = exportFunction(
+		(...args: any) =>
+			new window.Promise(async (resolve: Function) => {
+				const response = await getCraftResponse(...args);
+				const args0 = args[0].wrappedJSObject === undefined ? args[0] : args[0].wrappedJSObject;
+				const args1 = args[1].wrappedJSObject === undefined ? args[1] : args[1].wrappedJSObject;
+				const ingredients = args0.text.localeCompare(args1.text, 'en') === -1 ? [args0, args1] : [args1, args0];
+
+				const first = ingredients[0];
+				const second = ingredients[1];
+				const result = {
+					text: response.result,
+					emoji: response.emoji,
+					discovered: response.isNew,
+				};
+
+				if (first.text === '') return;
+				if (second.text === '') return;
+				if (result.text === '' || result.text === 'Nothing') return;
+
+				if (contributeToDatabase && unsafeWindow.fetch.toString() === cleanFetch) {
+					GM.xmlHttpRequest({
+						method: 'POST',
+						url: `https://infinitecraft.mikarific.com/recipe`,
+						data: JSON.stringify({
+							first: {
+								text: first.text,
+								emoji: first.emoji,
+							},
+							second: {
+								text: second.text,
+								emoji: second.emoji,
+							},
+							result: {
+								text: result.text,
+								emoji: result.emoji,
+							},
+						}),
+						headers: {
+							'Content-Type': 'application/json',
+							Origin: 'https://neal.fun/infinite-craft/',
+						},
+					});
+				}
+
+				addElementToCrafts(
+					{
 						text: first.text,
 						emoji: first.emoji,
 					},
-					second: {
+					{
 						text: second.text,
 						emoji: second.emoji,
 					},
-					result: {
-						text: result.result,
-						emoji: result.emoji,
-					},
-				}),
-				headers: {
-					'Content-Type': 'application/json',
-					Origin: 'https://neal.fun/infinite-craft/',
-				},
-			});
-		}
-		addElementToCrafts(
-			{
-				text: first.text,
-				emoji: first.emoji,
-			},
-			{
-				text: second.text,
-				emoji: second.emoji,
-			},
-			result.result,
-		);
-		if (result.isNew) {
-			addElementToDiscoveries({
-				text: result.result,
-				emoji: result.emoji,
-				discovered: result.isNew,
-			});
-		}
-		console.log(`${first.text} + ${second.text} = ${result.result}`);
-		return response;
-	};
+					result.text,
+				);
 
-	const selectElement = window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement;
-	window.unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement = (
-		e: MouseEvent,
-		element: { text: string; emoji?: string; discovered: boolean },
-	) => {
-		if (e.button === 2) return openCraftsForElement(element);
-		if (e.altKey) return pinElement(element);
-		return selectElement(e, element);
-	};
+				if (result.discovered) {
+					addElementToDiscoveries(result);
+				}
+
+				console.log(`${first.text} + ${second.text} = ${result.text}`);
+
+				resolve(response);
+			}),
+		unsafeWindow,
+	);
+
+	const selectElement = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement;
+	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement = exportFunction(
+		(e: MouseEvent, element: { text: string; emoji?: string; discovered: boolean; wrappedJSObject?: any }) => {
+			element = element.wrappedJSObject === undefined ? element : element.wrappedJSObject;
+			if (e.button === 2) {
+				openCraftsForElement(element);
+				return;
+			}
+			if (e.altKey) {
+				pinElement(element);
+				return;
+			}
+			return selectElement(e, element);
+		},
+		unsafeWindow,
+	);
 
 	const instanceObserver = new MutationObserver((mutations) => {
 		setMiddleClickOnMutations(mutations, elements);

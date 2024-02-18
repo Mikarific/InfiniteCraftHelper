@@ -1,29 +1,30 @@
 {
-  "name": "infinitecrafthelper",
-  "module": "index.ts",
-  "type": "module",
-  "scripts": {
-    "server": "bun run server/index.ts",
-    "build": "bunx gorilla --input ./script/index.ts --output ./dist/InfiniteCraftHelper.user.js --config ./gorilla.json",
-    "drizzle:migrate": "bunx drizzle-kit generate:sqlite --schema ./server/handlers/db/schema.ts --out ./server/drizzle && bun run ./server/handlers/db/migrate.ts",
-    "drizzle:studio": "cd server && bunx drizzle-kit studio"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "@types/greasemonkey": "^4.0.7",
-    "better-sqlite3": "^9.4.0",
-    "drizzle-kit": "^0.20.14",
-    "eslint": "^8.56.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "discord.js": "^14.14.1",
-    "drizzle-orm": "^0.29.3",
-    "gorilla-build": "^0.1.16",
-    "match-sorter": "^6.3.3",
-    "toml": "^3.0.0",
-    "zod": "^3.22.4"
-  }
+	"name": "infinitecrafthelper",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"server": "bun run server/index.ts",
+		"build": "bunx gorilla --input ./script/index.ts --output ./dist/InfiniteCraftHelper.user.js --config ./gorilla.json",
+		"drizzle:migrate": "bunx drizzle-kit generate:sqlite --schema ./server/handlers/db/schema.ts --out ./server/drizzle && bun run ./server/handlers/db/migrate.ts",
+		"drizzle:studio": "cd server && bunx drizzle-kit studio"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/greasemonkey": "^4.0.7",
+		"better-sqlite3": "^9.4.0",
+		"drizzle-kit": "^0.20.14",
+		"eslint": "^8.56.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {
+		"discord.js": "^14.14.1",
+		"drizzle-orm": "^0.29.3",
+		"gorilla-build": "^0.1.16",
+		"match-sorter": "^6.3.3",
+		"toml": "^3.0.0",
+		"zod": "^3.22.4"
+	},
+	"license": "MIT"
 }

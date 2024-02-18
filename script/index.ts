@@ -10,18 +10,21 @@ import * as crafts from './crafts';
 import * as theme from './theme';
 import * as logo from './logo';
 
+declare const unsafeWindow: any;
+declare const cloneInto: any;
+
 export type elements = {
 	container: HTMLDivElement;
-	styles: HTMLStyleElement;
 	instances: HTMLDivElement;
+	styles: HTMLStyleElement;
 	sideControls: HTMLDivElement;
 	sidebar: HTMLDivElement;
+	sidebarHeader: HTMLDivElement;
 	searchBar: HTMLInputElement;
 	settingsContent: HTMLDivElement;
 	items: HTMLDivElement;
 	getItems: () => HTMLDivElement[];
 	instruction: HTMLDivElement;
-	sidebarControls: HTMLDivElement;
 	sort: HTMLDivElement;
 	particles: HTMLCanvasElement;
 	logo: HTMLImageElement;
@@ -30,14 +33,19 @@ export type elements = {
 window.addEventListener(
 	'load',
 	async () => {
+		const sidebarHeader = document.createElement('div');
+		sidebarHeader.classList.add('sidebar-header');
+
 		const settingsContent = document.createElement('div');
 		settingsContent.classList.add('settings-content');
+
 		const elements: elements = {
 			container: document.querySelector('.container') as HTMLDivElement,
-			styles: document.createElement('style'),
 			instances: document.querySelector('.instances') as HTMLDivElement,
+			styles: document.createElement('style'),
 			sideControls: document.querySelector('.side-controls') as HTMLDivElement,
 			sidebar: document.querySelector('.sidebar') as HTMLDivElement,
+			sidebarHeader: sidebarHeader,
 			searchBar: document.querySelector('.sidebar-input') as HTMLInputElement,
 			settingsContent: settingsContent,
 			items: document.querySelector('.items') as HTMLDivElement,
@@ -45,12 +53,11 @@ window.addEventListener(
 				return Array.from(document.querySelectorAll('.items div.item'));
 			},
 			instruction: document.querySelector('.instruction') as HTMLDivElement,
-			sidebarControls: document.querySelector('.sidebar-controls') as HTMLDivElement,
 			sort: document.querySelector('.sort') as HTMLDivElement,
 			particles: document.querySelector('.particles') as HTMLCanvasElement,
 			logo: document.querySelector('.logo') as HTMLImageElement,
 		};
-		elements.items.before(elements.sidebarControls);
+		elements.items.before(elements.sidebarHeader);
 
 		styles.init(elements);
 		mutations.init(elements);
