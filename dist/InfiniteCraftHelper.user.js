@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.1
+// @version			2.0.2
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -1590,14 +1590,15 @@
             exportFunction(() => {
                 const query = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim();
                 if (query === '') {
+                    const elements = [...unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements];
                     if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.showDiscoveredOnly) {
-                        return cloneInto(cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).filter((el) => el.discovered), unsafeWindow);
+                        return cloneInto(elements.filter((el) => el.discovered), unsafeWindow);
                     }
                     if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'name') {
-                        return cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).sort((a, b) => a.text.localeCompare(b.text));
+                        return cloneInto(elements, unsafeWindow).sort((a, b) => a.text.localeCompare(b.text));
                     }
                     if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'emoji') {
-                        return cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).sort((a, b) => {
+                        return cloneInto(elements, unsafeWindow).sort((a, b) => {
                             const emojiA = a.emoji ?? '⬜';
                             const emojiB = b.emoji ?? '⬜';
                             return emojiA.localeCompare(emojiB);
