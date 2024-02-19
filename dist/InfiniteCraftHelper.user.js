@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.2
+// @version			2.0.3
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -321,10 +321,16 @@
                         e.preventDefault();
                         if (e instanceof MouseEvent &&
                             e.button === 1 &&
-                            e.target instanceof HTMLDivElement &&
-                            e.target.childNodes.length >= 2) {
+                            e.target instanceof HTMLElement &&
+                            (e.target.classList.contains('instance') ||
+                                e.target.classList.contains('instance-discovered-text') ||
+                                e.target.classList.contains('instance-discovered-emoji'))) {
                             unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
-                            const targetElement = e.target;
+                            const targetElement = e.target.classList.contains('instance-discovered-emoji')
+                                ? e.target.parentElement?.parentElement
+                                : e.target.classList.contains('instance-discovered-text')
+                                    ? e.target.parentElement
+                                    : e.target;
                             const { x, y, width, height } = targetElement.getBoundingClientRect();
                             const data = {
                                 id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
@@ -1661,7 +1667,7 @@
 		scrollbar-color: #525252 #262626;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon, .instance-discovered-emoji {
         filter: invert(1) !important;
     }
 

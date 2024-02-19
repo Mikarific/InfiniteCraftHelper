@@ -13,11 +13,17 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 					if (
 						e instanceof MouseEvent &&
 						(e as MouseEvent).button === 1 &&
-						e.target instanceof HTMLDivElement &&
-						e.target.childNodes.length >= 2
+						e.target instanceof HTMLElement &&
+						(e.target.classList.contains('instance') ||
+							e.target.classList.contains('instance-discovered-text') ||
+							e.target.classList.contains('instance-discovered-emoji'))
 					) {
 						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
-						const targetElement = e.target as HTMLDivElement;
+						const targetElement = e.target.classList.contains('instance-discovered-emoji')
+							? (e.target.parentElement?.parentElement as HTMLDivElement)
+							: e.target.classList.contains('instance-discovered-text')
+							? (e.target.parentElement as HTMLDivElement)
+							: (e.target as HTMLDivElement);
 						const { x, y, width, height } = targetElement.getBoundingClientRect();
 						const data = {
 							id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
