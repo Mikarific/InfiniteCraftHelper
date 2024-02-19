@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.3
+// @version			2.0.4
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -677,11 +677,11 @@
                 discovered: response.isNew,
             };
             if (first.text === '')
-                return;
+                return resolve(response);
             if (second.text === '')
-                return;
+                return resolve(response);
             if (result.text === '' || result.text === 'Nothing')
-                return;
+                return resolve(response);
             if (contributeToDatabase && unsafeWindow.fetch.toString() === cleanFetch) {
                 GM.xmlHttpRequest({
                     method: 'POST',

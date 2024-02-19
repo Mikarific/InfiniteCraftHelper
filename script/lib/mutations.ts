@@ -35,9 +35,9 @@ export function init(elements: elements) {
 					discovered: response.isNew,
 				};
 
-				if (first.text === '') return;
-				if (second.text === '') return;
-				if (result.text === '' || result.text === 'Nothing') return;
+				if (first.text === '') return resolve(response);
+				if (second.text === '') return resolve(response);
+				if (result.text === '' || result.text === 'Nothing') return resolve(response);
 
 				if (contributeToDatabase && unsafeWindow.fetch.toString() === cleanFetch) {
 					GM.xmlHttpRequest({
