@@ -57,6 +57,10 @@ const darkCSS = `
 	.sidebar-discoveries-active {
 		background-color: #262626 !important;
 	}
+
+	.sidebar-controls:after {
+		background: linear-gradient(180deg, rgba(24,24,27,0), rgba(24,24,27,.9)) !important;
+	}
 `;
 const darkStyles = document.createElement('style');
 darkStyles.appendChild(document.createTextNode(darkCSS.trim()));
