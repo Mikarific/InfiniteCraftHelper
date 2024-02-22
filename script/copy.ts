@@ -35,6 +35,8 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 							top: y,
 							offsetX: 0.5,
 							offsetY: 0.5,
+							hasMoved: false,
+							fromPanel: false,
 						};
 						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = cloneInto(
 							data,
@@ -55,8 +57,23 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 									unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
 									data.id,
 								);
+								unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.elem.addEventListener(
+									'mouseup',
+									exportFunction((e: MouseEvent) => {
+										if (
+											!unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved
+										) {
+											unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved =
+												true;
+											unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(
+												unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+											);
+										}
+									}, unsafeWindow),
+								);
 							}, unsafeWindow),
 						);
+						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.mouseDown = true;
 					}
 				});
 			}
