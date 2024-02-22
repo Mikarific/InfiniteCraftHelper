@@ -1,4 +1,5 @@
 import * as outdated from './outdated';
+import * as favicon from './favicon';
 import * as styles from './styles';
 import * as mutations from './lib/mutations';
 import * as settings from './settings';
@@ -15,6 +16,7 @@ declare const unsafeWindow: any;
 declare const cloneInto: any;
 
 export type elements = {
+	head: HTMLHeadElement;
 	container: HTMLDivElement;
 	instances: HTMLDivElement;
 	styles: HTMLStyleElement;
@@ -41,6 +43,7 @@ window.addEventListener(
 		settingsContent.classList.add('settings-content');
 
 		const elements: elements = {
+			head: document.children[0].children[0] as HTMLHeadElement,
 			container: document.querySelector('.container') as HTMLDivElement,
 			instances: document.querySelector('.instances') as HTMLDivElement,
 			styles: document.createElement('style'),
@@ -61,6 +64,7 @@ window.addEventListener(
 		elements.items.before(elements.sidebarHeader);
 
 		outdated.init(elements);
+		favicon.init(elements);
 		styles.init(elements);
 		mutations.init(elements);
 		settings.init(elements);
