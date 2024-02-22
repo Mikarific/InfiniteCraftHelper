@@ -1,3 +1,4 @@
+import * as outdated from './outdated';
 import * as styles from './styles';
 import * as mutations from './lib/mutations';
 import * as settings from './settings';
@@ -59,6 +60,7 @@ window.addEventListener(
 		};
 		elements.items.before(elements.sidebarHeader);
 
+		outdated.init(elements);
 		styles.init(elements);
 		mutations.init(elements);
 		settings.init(elements);

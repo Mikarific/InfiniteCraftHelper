@@ -78,7 +78,7 @@ export function openCraftsForElement(element: { text: string; emoji?: string }) 
 	const elementRecipes = recipes[element.text];
 	if (elementRecipes === undefined) {
 		const recipesEmpty = document.createElement('div');
-		recipesEmpty.classList.add('modal-empty');
+		recipesEmpty.classList.add('modal-text');
 		recipesEmpty.appendChild(document.createTextNode("I don't know how to craft this element!"));
 		craftsContainer.appendChild(recipesEmpty);
 	} else {

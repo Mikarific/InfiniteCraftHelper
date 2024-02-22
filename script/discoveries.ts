@@ -33,7 +33,7 @@ export function init(elements: elements) {
 
 	discoveriesModal.appendChild(discoveriesHeader);
 
-	discoveriesEmpty.classList.add('modal-empty');
+	discoveriesEmpty.classList.add('modal-text');
 	discoveriesEmpty.appendChild(document.createTextNode("You don't have any first discoveries!"));
 	discoveriesModal.appendChild(discoveriesEmpty);
 

@@ -22,6 +22,7 @@ const css = `
         transition: background .15s linear;
         background: var(--base);
         line-height: 1em;
+        white-space: nowrap;
     }
 
     .item:hover {
@@ -217,6 +218,7 @@ const css = `
         position: sticky;
         top: 0;
         display: flex;
+        gap: 1rem;
         padding-top: 16px;
         padding-bottom: 16px;
         justify-content: space-between;
@@ -233,7 +235,7 @@ const css = `
         user-select: none;
     }
 
-    .modal-empty {
+    .modal-text {
         font-size: 15px;
         font-family: Roboto, sans-serif;
         color: var(--text);
@@ -266,6 +268,23 @@ const css = `
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+    }
+
+    .modal-button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 16px;
+        color: var(--text);
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .modal-button-container > .item {
+        font-family: Roboto, sans-serif;
+        font-size: 15.4px;
+        text-decoration: auto;
     }
 
     .close-button {

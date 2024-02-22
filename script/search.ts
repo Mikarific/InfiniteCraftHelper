@@ -37,7 +37,7 @@ export function init(elements: elements) {
 						(
 							a: { text: string; emoji?: string; discovered: boolean },
 							b: { text: string; emoji?: string; discovered: boolean },
-						) => a.text.localeCompare(b.text),
+						) => a.text.localeCompare(b.text, undefined, { numeric: true }),
 					);
 				}
 				if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'emoji') {
