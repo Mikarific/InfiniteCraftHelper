@@ -721,7 +721,7 @@
 	        elementDiv.appendChild(elementEmoji);
 	        elementDiv.appendChild(document.createTextNode(` ${pinnedElement.text} `));
 	        elementDiv.addEventListener('mousedown', (e) => {
-	            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, pinnedElement);
+	            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, cloneInto(pinnedElement, unsafeWindow));
 	        });
 	        pinnedContainer.appendChild(elementDiv);
 	    }

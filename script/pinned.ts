@@ -2,6 +2,7 @@ import type { elements } from './index';
 
 declare const GM: any;
 declare const unsafeWindow: any;
+declare const cloneInto: any;
 
 export const pinnedContainer = document.createElement('div');
 export const pinnedTitle = document.createElement('div');
@@ -29,7 +30,10 @@ export async function init(elements: elements) {
 		elementDiv.appendChild(document.createTextNode(` ${pinnedElement.text} `));
 
 		elementDiv.addEventListener('mousedown', (e) => {
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, pinnedElement);
+			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(
+				e,
+				cloneInto(pinnedElement, unsafeWindow),
+			);
 		});
 
 		pinnedContainer.appendChild(elementDiv);
