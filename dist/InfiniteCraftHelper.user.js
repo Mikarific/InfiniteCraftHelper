@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.1.0
+// @version			2.1.1
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -14,6 +14,8 @@
 // @run-at			document-end
 // @noframes
 // @inject-into		page
+// @sandbox			JavaScript
+// @connect			*
 // @downloadURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
 // @updateURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
 // @supportURL		https://discord.gg/NSMut3Wx3Y
