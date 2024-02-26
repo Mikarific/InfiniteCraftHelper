@@ -11,6 +11,7 @@ import * as random from './random';
 import * as discoveries from './discoveries';
 import * as crafts from './crafts';
 import * as logo from './logo';
+import * as shadow from './shadow';
 
 declare const unsafeWindow: any;
 declare const cloneInto: any;
@@ -21,6 +22,7 @@ export type elements = {
 	instances: HTMLDivElement;
 	styles: HTMLStyleElement;
 	sideControls: HTMLDivElement;
+	darkModeIcon: HTMLImageElement;
 	sidebar: HTMLDivElement;
 	sidebarHeader: HTMLDivElement;
 	searchBar: HTMLInputElement;
@@ -48,6 +50,7 @@ window.addEventListener(
 			instances: document.querySelector('.instances') as HTMLDivElement,
 			styles: document.createElement('style'),
 			sideControls: document.querySelector('.side-controls') as HTMLDivElement,
+			darkModeIcon: document.querySelector('.dark-mode-icon') as HTMLImageElement,
 			sidebar: document.querySelector('.sidebar') as HTMLDivElement,
 			sidebarHeader: sidebarHeader,
 			searchBar: document.querySelector('.sidebar-search') as HTMLInputElement,
@@ -76,6 +79,7 @@ window.addEventListener(
 		await crafts.init(elements);
 		discoveries.init(elements);
 		logo.init(elements);
+		shadow.init(elements);
 	},
 	false,
 );
