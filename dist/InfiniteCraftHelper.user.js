@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.6
+// @version			2.0.7
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -98,12 +98,13 @@
 	}
 
 	function init$b(elements) {
-	    const originalFavicon = elements.head.querySelector('link[rel="icon"]');
-	    const whiteFaviconLink = originalFavicon.cloneNode();
-	    originalFavicon.media = '(prefers-color-scheme:light)';
-	    whiteFaviconLink.media = '(prefers-color-scheme:dark)';
-	    whiteFaviconLink.href = whiteFavicon.trim();
-	    elements.head.appendChild(whiteFaviconLink);
+	    if (elements.favicon !== null) {
+	        const whiteFaviconLink = elements.favicon.cloneNode();
+	        elements.favicon.media = '(prefers-color-scheme:light)';
+	        whiteFaviconLink.media = '(prefers-color-scheme:dark)';
+	        whiteFaviconLink.href = whiteFavicon.trim();
+	        elements.favicon.after(whiteFaviconLink);
+	    }
 	}
 
 	const css = `
@@ -1885,7 +1886,7 @@
 	    const settingsContent = document.createElement('div');
 	    settingsContent.classList.add('settings-content');
 	    const elements = {
-	        head: document.children[0].children[0],
+	        favicon: document.querySelector('link[rel="icon"]'),
 	        container: document.querySelector('.container'),
 	        instances: document.querySelector('.instances'),
 	        styles: document.createElement('style'),

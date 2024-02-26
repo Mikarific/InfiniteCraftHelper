@@ -16,7 +16,7 @@ declare const unsafeWindow: any;
 declare const cloneInto: any;
 
 export type elements = {
-	head: HTMLHeadElement;
+	favicon: HTMLLinkElement;
 	container: HTMLDivElement;
 	instances: HTMLDivElement;
 	styles: HTMLStyleElement;
@@ -43,7 +43,7 @@ window.addEventListener(
 		settingsContent.classList.add('settings-content');
 
 		const elements: elements = {
-			head: document.children[0].children[0] as HTMLHeadElement,
+			favicon: document.querySelector('link[rel="icon"]') as HTMLLinkElement,
 			container: document.querySelector('.container') as HTMLDivElement,
 			instances: document.querySelector('.instances') as HTMLDivElement,
 			styles: document.createElement('style'),
