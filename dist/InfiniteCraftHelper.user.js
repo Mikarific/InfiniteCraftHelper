@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.7
+// @version			2.0.8
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -493,11 +493,14 @@
 	    recipes = JSON.parse((await GM.getValue('recipes')) ?? '{}');
 	    delete recipes['Nothing'];
 	    for (const recipeKey of Object.keys(recipes)) {
-	        for (let i = 0; i < recipes[recipeKey].length; i++) {
-	            if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i] === null || recipes[recipeKey][i].length < 2)
-	                continue;
-	            if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
-	                delete recipes[recipeKey][i];
+	        for (let i = recipes[recipeKey].length - 1; i >= 0; i--) {
+	            if (recipes[recipeKey][i] === undefined ||
+	                recipes[recipeKey][i] === null ||
+	                recipes[recipeKey][i].length < 2 ||
+	                recipes[recipeKey][i][0].text === recipeKey ||
+	                recipes[recipeKey][i][1].text === recipeKey) {
+	                recipes[recipeKey].splice(i, 1);
+	            }
 	        }
 	    }
 	    await GM.setValue('recipes', JSON.stringify(recipes));

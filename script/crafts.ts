@@ -34,11 +34,16 @@ export async function init(elements: elements) {
 	recipes = JSON.parse(((await GM.getValue('recipes')) as string) ?? '{}');
 	delete recipes['Nothing'];
 	for (const recipeKey of Object.keys(recipes)) {
-		for (let i = 0; i < recipes[recipeKey].length; i++) {
-			if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i] === null || recipes[recipeKey][i].length < 2)
-				continue;
-			if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
-				delete recipes[recipeKey][i];
+		for (let i = recipes[recipeKey].length - 1; i >= 0; i--) {
+			if (
+				recipes[recipeKey][i] === undefined ||
+				recipes[recipeKey][i] === null ||
+				recipes[recipeKey][i].length < 2 ||
+				recipes[recipeKey][i][0].text === recipeKey ||
+				recipes[recipeKey][i][1].text === recipeKey
+			) {
+				recipes[recipeKey].splice(i, 1);
+			}
 		}
 	}
 	await GM.setValue('recipes', JSON.stringify(recipes));
