@@ -1,12 +1,12 @@
 import type { elements } from './index';
 
 const css = `
-    :root {
-        --base: #fff;
-        --border: #c8c8c8;
-        --border-hover: #91a8c1;
-        --text: #000;
-        --selected-gradient: linear-gradient(0deg,#d6fcff,#fff 90%);
+    .dark-mode .site-title, .dark-mode .instruction-icon, .dark-mode .settings-button, .dark-mode .setting > img, .dark-mode .close-button {
+        filter: invert(1);
+    }
+
+    .dark-mode {
+        scrollbar-color: var(--border-color) #262626;
     }
 
     .item {
@@ -18,16 +18,17 @@ const css = `
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-color);
         transition: background .15s linear;
-        background: var(--base);
+        background: var(--item-bg);
         line-height: 1em;
+        color: var(--text-color);
         white-space: nowrap;
     }
 
     .item:hover {
-        background: var(--selected-gradient);
-        border: 1px solid var(--border-hover);
+        background: var(--instance-bg-hover);
+        border: 1px solid var(--instance-border-hover);
     }
 
     @media screen and (min-width: 1150px) {
@@ -45,14 +46,14 @@ const css = `
         border: 0px;
         border-bottom: 1px;
         border-style: solid;
-        border-color: var(--border);
+        border-color: var(--border-color);
     }
 
     .pinned-title {
         margin: 4px;
         font-size: 15px;
         font-family: Roboto, sans-serif;
-        color: var(--text);
+        color: var(--text-color);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -60,14 +61,14 @@ const css = `
     }
 
     .sidebar {
-        width: var(--sidebar) !important;
+        width: var(--sidebar-size) !important;
     }
 
     .resize-bar {
         position: absolute;
         height: 100%;
         width: 5px;
-        right: calc(var(--sidebar) - 3px);
+        right: calc(var(--sidebar-size) - 3px);
         z-index: 10;
         cursor: ew-resize;
     }
@@ -77,7 +78,7 @@ const css = `
         position: sticky;
         height: auto !important;
         top: 0px;
-        background-color: var(--base) !important;
+        background-color: var(--background-color) !important;
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
@@ -85,7 +86,7 @@ const css = `
         border: 0px;
         border-bottom: 1px;
         border-style: solid;
-        border-color: var(--border);
+        border-color: var(--border-color);
     }
 
     .sidebar-search {
@@ -96,34 +97,37 @@ const css = `
         height: 40px !important;
         margin: 4px;
         border-radius: 5px;
-        border: 1px solid var(--border) !important;
+        border: 1px solid var(--border-color) !important;
         font-family: Roboto, sans-serif;
         background-size: 21px 21px !important;
         background-position: 10px 10px !important;
-        background-color: var(--base) !important;
-        color: var(--text);
+        color: var(--text-color);
     }
 
     .settings-details {
+        display: flex;
         margin: 4px;
         height: 40px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
     }
 
     .settings-summary {
+        display: flex;
         list-style: none;
     }
 
     .settings-button {
         height: 40px;
         padding: 8px 8px 7px;
-        border: 1px solid var(--border);
-        border-radius: 5px;
         cursor: pointer;
         opacity: .8;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+        aspect-ratio: 1/1;
     }
+
     .settings-button:hover {
         transform: scale(1.05)
     }
@@ -135,9 +139,9 @@ const css = `
         position: absolute;
         right: 13px;
         padding: 8px 8px 7px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
-        background-color: var(--base);
+        background-color: var(--background-color);
     }
 
     .setting {
@@ -146,7 +150,7 @@ const css = `
         justify-content: flex-end;
         cursor: pointer;
         padding: 8px 8px 7px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -154,11 +158,12 @@ const css = `
         line-height: 1em;
         font-family: Roboto, sans-serif;
         font-size: 15.4px;
-        color: var(--text);
+        color: var(--text-color);
     }
+
     .setting:hover {
-        background: var(--selected-gradient);
-        border: 1px solid var(--border-hover);
+        background: var(--instance-bg-hover);
+        border: 1px solid var(--instance-border-hover);
     }
 
     .setting > img {
@@ -171,30 +176,26 @@ const css = `
         display: none;
     }
 
-    .site-title {
-        z-index: 1;
-    }
-
     .logo {
         width: 85px !important;
-        right: calc(var(--sidebar) + 15px) !important;
+        right: calc(var(--sidebar-size) + 15px) !important;
     }
 
     .version {
         position: fixed;
         top: 85px;
-        right: calc(var(--sidebar) + 15px);
+        right: calc(var(--sidebar-size) + 15px);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
         pointer-events: none;
-        color: var(--text);
+        color: var(--text-color);
         font-family: Roboto, sans-serif;
         font-size: 11px;
     }
 
     .side-controls {
-        right: calc(var(--sidebar) + 9px) !important;
+        right: calc(var(--sidebar-size) + 9px) !important;
         z-index: 1;
     }
 
@@ -216,9 +217,9 @@ const css = `
         max-height: 75%;
         margin: auto;
         padding-top: 0px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
-        background-color: var(--base);
+        background-color: var(--background-color);
     }
 
     .modal::backdrop {
@@ -233,14 +234,14 @@ const css = `
         padding-top: 16px;
         padding-bottom: 16px;
         justify-content: space-between;
-        background-color: var(--base);
+        background-color: var(--background-color);
     }
 
     .modal-title {
         font-size: 20px;
         font-family: Roboto, sans-serif;
         line-height: 35px;
-        color: var(--text);
+        color: var(--text-color);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -249,7 +250,7 @@ const css = `
     .modal-text {
         font-size: 15px;
         font-family: Roboto, sans-serif;
-        color: var(--text);
+        color: var(--text-color);
         text-align: center;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -265,11 +266,11 @@ const css = `
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
-        border: 1px solid var(--border);
-        background: var(--base);
+        border: 1px solid var(--border-color);
+        background: var(--item-bg);
         line-height: 1em;
         white-space: nowrap;
-        color: var(--text);
+        color: var(--text-color);
     }
 
     @media screen and (min-width: 1150px) {
@@ -282,7 +283,7 @@ const css = `
     .recipe {
         display: flex;
         align-items: center;
-        color: var(--text);
+        color: var(--text-color);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -293,7 +294,7 @@ const css = `
         align-items: center;
         justify-content: center;
         padding-top: 16px;
-        color: var(--text);
+        color: var(--text-color);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -305,17 +306,22 @@ const css = `
         text-decoration: auto;
     }
 
+    .close-button-container {
+        display: flex;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+    }
+
     .close-button {
         height: 35px;
         padding: 8px 8px 7px;
-        border: 1px solid var(--border);
-        border-radius: 5px;
         cursor: pointer;
         opacity: .8;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
     }
+
     .close-button:hover {
         transform: scale(1.05)
     }

@@ -28,10 +28,15 @@ export function init(elements: elements) {
 					outdatedTitle.appendChild(document.createTextNode('Infinite Craft Helper is out of date!'));
 					outdatedHeader.appendChild(outdatedTitle);
 
+					const closeButtonContainer = document.createElement('div');
+					closeButtonContainer.classList.add('close-button-container');
+
 					const closeButton = document.createElement('img');
 					closeButton.src = closeIcon.trim();
 					closeButton.classList.add('close-button');
-					outdatedHeader.appendChild(closeButton);
+					closeButtonContainer.appendChild(closeButton);
+
+					outdatedHeader.appendChild(closeButtonContainer);
 
 					outdatedModal.appendChild(outdatedHeader);
 

@@ -26,10 +26,15 @@ export function init(elements: elements) {
 	discoveriesTitle.appendChild(document.createTextNode('Your First Discoveries'));
 	discoveriesHeader.appendChild(discoveriesTitle);
 
+	const closeButtonContainer = document.createElement('div');
+	closeButtonContainer.classList.add('close-button-container');
+
 	const closeButton = document.createElement('img');
 	closeButton.src = closeIcon.trim();
 	closeButton.classList.add('close-button');
-	discoveriesHeader.appendChild(closeButton);
+	closeButtonContainer.appendChild(closeButton);
+
+	discoveriesHeader.appendChild(closeButtonContainer);
 
 	discoveriesModal.appendChild(discoveriesHeader);
 

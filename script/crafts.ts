@@ -21,10 +21,15 @@ export async function init(elements: elements) {
 	craftsTitle.appendChild(document.createTextNode('Crafts'));
 	craftsHeader.appendChild(craftsTitle);
 
+	const closeButtonContainer = document.createElement('div');
+	closeButtonContainer.classList.add('close-button-container');
+
 	const closeButton = document.createElement('img');
 	closeButton.src = closeIcon.trim();
 	closeButton.classList.add('close-button');
-	craftsHeader.appendChild(closeButton);
+	closeButtonContainer.appendChild(closeButton);
+
+	craftsHeader.appendChild(closeButtonContainer);
 
 	craftsModal.appendChild(craftsHeader);
 

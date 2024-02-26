@@ -10,7 +10,6 @@ import * as pinned from './pinned';
 import * as random from './random';
 import * as discoveries from './discoveries';
 import * as crafts from './crafts';
-import * as theme from './theme';
 import * as logo from './logo';
 
 declare const unsafeWindow: any;
@@ -76,7 +75,6 @@ window.addEventListener(
 		random.init(elements);
 		await crafts.init(elements);
 		discoveries.init(elements);
-		theme.init(elements);
 		logo.init(elements);
 	},
 	false,
