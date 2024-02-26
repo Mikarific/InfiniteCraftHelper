@@ -35,7 +35,8 @@ export async function init(elements: elements) {
 	delete recipes['Nothing'];
 	for (const recipeKey of Object.keys(recipes)) {
 		for (let i = 0; i < recipes[recipeKey].length; i++) {
-			if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i].length < 2) continue;
+			if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i] === null || recipes[recipeKey][i].length < 2)
+				continue;
 			if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
 				delete recipes[recipeKey][i];
 		}

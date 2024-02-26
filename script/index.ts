@@ -50,7 +50,7 @@ window.addEventListener(
 			sideControls: document.querySelector('.side-controls') as HTMLDivElement,
 			sidebar: document.querySelector('.sidebar') as HTMLDivElement,
 			sidebarHeader: sidebarHeader,
-			searchBar: document.querySelector('.sidebar-input') as HTMLInputElement,
+			searchBar: document.querySelector('.sidebar-search') as HTMLInputElement,
 			settingsContent: settingsContent,
 			items: document.querySelector('.items') as HTMLDivElement,
 			getItems: () => {

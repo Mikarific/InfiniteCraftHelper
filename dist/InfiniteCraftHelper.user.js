@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.4
+// @version			2.0.5
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -486,17 +486,15 @@
 	    craftsModal.appendChild(craftsContainer);
 	    recipes = JSON.parse((await GM.getValue('recipes')) ?? '{}');
 	    delete recipes['Nothing'];
-	    console.log(recipes['Pickle']);
 	    for (const recipeKey of Object.keys(recipes)) {
 	        for (let i = 0; i < recipes[recipeKey].length; i++) {
-	            if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i].length < 2)
+	            if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i] === null || recipes[recipeKey][i].length < 2)
 	                continue;
 	            if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
 	                delete recipes[recipeKey][i];
 	        }
 	    }
-	    // await GM.setValue('recipes', JSON.stringify(fileContents.recipes));
-	    console.log(recipes['Pickle']);
+	    await GM.setValue('recipes', JSON.stringify(recipes));
 	    closeButton.addEventListener('click', (e) => {
 	        craftsModal.close();
 	    });
@@ -1787,7 +1785,7 @@
 		scrollbar-color: #525252 #262626;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon, .instance-discovered-emoji {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon, .instance-discovered-emoji, .sidebar-input-close {
         filter: invert(1) !important;
     }
 
@@ -1889,7 +1887,7 @@
 	        sideControls: document.querySelector('.side-controls'),
 	        sidebar: document.querySelector('.sidebar'),
 	        sidebarHeader: sidebarHeader,
-	        searchBar: document.querySelector('.sidebar-input'),
+	        searchBar: document.querySelector('.sidebar-search'),
 	        settingsContent: settingsContent,
 	        items: document.querySelector('.items'),
 	        getItems: () => {

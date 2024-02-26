@@ -17,7 +17,7 @@ const darkCSS = `
 		scrollbar-color: #525252 #262626;
 	}
 
-	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon, .instance-discovered-emoji {
+	.settings-button, .setting > img, .site-title, .logo, .coffee-link, .clear, .sound, .random, .discoveries-icon, .close-button, .sort-img, .particles, .instruction-icon, .sidebar-sorting-icon, .instance-discovered-emoji, .sidebar-input-close {
         filter: invert(1) !important;
     }
 
