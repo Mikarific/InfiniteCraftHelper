@@ -11,8 +11,13 @@
 // @grant			GM.setValue
 // @grant			GM.xmlHttpRequest
 // @grant			unsafeWindow
+// @run-at			document-end
+// @noframes
+// @inject-into		page
 // @downloadURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
 // @updateURL		https://github.com/Mikarific/InfiniteCraftHelper/raw/main/dist/InfiniteCraftHelper.user.js
+// @supportURL		https://discord.gg/NSMut3Wx3Y
+// @homepageURL		https://discord.gg/NSMut3Wx3Y
 // @license			MIT
 //
 // Created with love using Gorilla
