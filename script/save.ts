@@ -69,20 +69,26 @@ export function init(elements: elements) {
 		await resetCrafts();
 		if (Object.keys(fileContents).includes('recipes')) {
 			for (const recipeKey of Object.keys(fileContents.recipes)) {
-				for (const recipe of fileContents.recipes[recipeKey]) {
-					addElementToCrafts(
-						{
-							text: recipe[0].text,
-							emoji: recipe[0].emoji,
-						},
-						{
-							text: recipe[1].text,
-							emoji: recipe[1].emoji,
-						},
-						recipeKey,
-					);
+				if (recipeKey !== 'Nothing') {
+					for (const recipe of fileContents.recipes[recipeKey]) {
+						if (recipe[0].text !== recipeKey && recipe[1].text !== recipeKey) {
+							addElementToCrafts(
+								{
+									text: recipe[0].text,
+									emoji: recipe[0].emoji,
+								},
+								{
+									text: recipe[1].text,
+									emoji: recipe[1].emoji,
+								},
+								recipeKey,
+								true,
+							);
+						}
+					}
 				}
 			}
+			await GM.setValue('recipes', JSON.stringify(fileContents.recipes));
 		}
 
 		await resetDiscoveries();
@@ -97,8 +103,9 @@ export function init(elements: elements) {
 		await resetPinnedElements();
 		if (Object.keys(fileContents).includes('pinned')) {
 			for (let pinnedElement of fileContents.pinned) {
-				pinElement(cloneInto(pinnedElement, unsafeWindow));
+				pinElement(cloneInto(pinnedElement, unsafeWindow), true);
 			}
+			await GM.setValue('pinned', JSON.stringify(fileContents.pinned));
 		}
 	});
 

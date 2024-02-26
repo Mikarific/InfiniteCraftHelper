@@ -32,6 +32,15 @@ export async function init(elements: elements) {
 	craftsModal.appendChild(craftsContainer);
 
 	recipes = JSON.parse(((await GM.getValue('recipes')) as string) ?? '{}');
+	delete recipes['Nothing'];
+	for (const recipeKey of Object.keys(recipes)) {
+		for (let i = 0; i < recipes[recipeKey].length; i++) {
+			if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i].length < 2) continue;
+			if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
+				delete recipes[recipeKey][i];
+		}
+	}
+	await GM.setValue('recipes', JSON.stringify(recipes));
 
 	closeButton.addEventListener('click', (e) => {
 		craftsModal.close();
@@ -42,6 +51,7 @@ export async function addElementToCrafts(
 	first: { text: string; emoji?: string },
 	second: { text: string; emoji?: string },
 	result: string,
+	loading = false,
 ) {
 	const ingredients = [first, second].sort((a, b) => {
 		return a.text.localeCompare(b.text);
@@ -63,7 +73,7 @@ export async function addElementToCrafts(
 			emoji: ingredients[1].emoji ?? '⬜',
 		},
 	]);
-	await GM.setValue('recipes', JSON.stringify(recipes));
+	if (!loading) await GM.setValue('recipes', JSON.stringify(recipes));
 }
 
 export function openCraftsForElement(element: { text: string; emoji?: string }) {

@@ -38,9 +38,9 @@ export async function init(elements: elements) {
 	elements.items.before(pinnedContainer);
 }
 
-export async function pinElement(element: { text: string; emoji?: string; discovered: boolean }) {
+export async function pinElement(element: { text: string; emoji?: string; discovered: boolean }, loading = false) {
 	if (pinnedElements.find((el) => el.text === element.text) === undefined) {
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+		if (!loading) unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
 		const elementDiv = document.createElement('div');
 		elementDiv.classList.add('item');
 		const elementEmoji = document.createElement('span');
@@ -54,16 +54,16 @@ export async function pinElement(element: { text: string; emoji?: string; discov
 		pinnedContainer.appendChild(elementDiv);
 		if (pinnedElements.length === 0) pinnedContainer.style.display = '';
 		pinnedElements.push(element);
-		await GM.setValue('pinned', JSON.stringify(pinnedElements));
+		if (!loading) await GM.setValue('pinned', JSON.stringify(pinnedElements));
 	} else {
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
+		if (!loading) unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
 		const elementDiv = Array.from(pinnedContainer.querySelectorAll('.item')).find(
 			(el) => el.childNodes[1].textContent?.trim() === element.text,
 		);
 		elementDiv?.remove();
 		if (pinnedElements.length === 1) pinnedContainer.style.display = 'none';
 		pinnedElements = pinnedElements.filter((el) => el !== element);
-		await GM.setValue('pinned', JSON.stringify(pinnedElements));
+		if (!loading) await GM.setValue('pinned', JSON.stringify(pinnedElements));
 	}
 }
 export async function resetPinnedElements() {

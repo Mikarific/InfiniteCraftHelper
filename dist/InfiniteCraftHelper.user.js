@@ -449,15 +449,11 @@
 	                        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(exportFunction(() => {
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, e.clientX - width / 2, e.clientY - height / 2);
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
-	                            console.log('test');
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.elem.addEventListener('mouseup', exportFunction((e) => {
 	                                if (!unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved) {
-	                                    console.log('test2');
 	                                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved =
 	                                        true;
-	                                    console.log('test3');
 	                                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
-	                                    console.log('test4');
 	                                }
 	                            }, unsafeWindow));
 	                        }, unsafeWindow));
@@ -489,11 +485,23 @@
 	    craftsContainer.classList.add('crafts-container');
 	    craftsModal.appendChild(craftsContainer);
 	    recipes = JSON.parse((await GM.getValue('recipes')) ?? '{}');
+	    delete recipes['Nothing'];
+	    console.log(recipes['Pickle']);
+	    for (const recipeKey of Object.keys(recipes)) {
+	        for (let i = 0; i < recipes[recipeKey].length; i++) {
+	            if (recipes[recipeKey][i] === undefined || recipes[recipeKey][i].length < 2)
+	                continue;
+	            if (recipes[recipeKey][i][0].text === recipeKey || recipes[recipeKey][i][1].text === recipeKey)
+	                delete recipes[recipeKey][i];
+	        }
+	    }
+	    // await GM.setValue('recipes', JSON.stringify(fileContents.recipes));
+	    console.log(recipes['Pickle']);
 	    closeButton.addEventListener('click', (e) => {
 	        craftsModal.close();
 	    });
 	}
-	async function addElementToCrafts(first, second, result) {
+	async function addElementToCrafts(first, second, result, loading = false) {
 	    const ingredients = [first, second].sort((a, b) => {
 	        return a.text.localeCompare(b.text);
 	    });
@@ -511,7 +519,8 @@
 	            emoji: ingredients[1].emoji ?? '⬜',
 	        },
 	    ]);
-	    await GM.setValue('recipes', JSON.stringify(recipes));
+	    if (!loading)
+	        await GM.setValue('recipes', JSON.stringify(recipes));
 	}
 	function openCraftsForElement(element) {
 	    craftsTitle.innerHTML = '';
@@ -720,9 +729,10 @@
 	    }
 	    elements.items.before(pinnedContainer);
 	}
-	async function pinElement(element) {
+	async function pinElement(element, loading = false) {
 	    if (pinnedElements.find((el) => el.text === element.text) === undefined) {
-	        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+	        if (!loading)
+	            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
 	        const elementDiv = document.createElement('div');
 	        elementDiv.classList.add('item');
 	        const elementEmoji = document.createElement('span');
@@ -737,16 +747,19 @@
 	        if (pinnedElements.length === 0)
 	            pinnedContainer.style.display = '';
 	        pinnedElements.push(element);
-	        await GM.setValue('pinned', JSON.stringify(pinnedElements));
+	        if (!loading)
+	            await GM.setValue('pinned', JSON.stringify(pinnedElements));
 	    }
 	    else {
-	        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
+	        if (!loading)
+	            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
 	        const elementDiv = Array.from(pinnedContainer.querySelectorAll('.item')).find((el) => el.childNodes[1].textContent?.trim() === element.text);
 	        elementDiv?.remove();
 	        if (pinnedElements.length === 1)
 	            pinnedContainer.style.display = 'none';
 	        pinnedElements = pinnedElements.filter((el) => el !== element);
-	        await GM.setValue('pinned', JSON.stringify(pinnedElements));
+	        if (!loading)
+	            await GM.setValue('pinned', JSON.stringify(pinnedElements));
 	    }
 	}
 	async function resetPinnedElements() {
@@ -895,16 +908,21 @@
 	        await resetCrafts();
 	        if (Object.keys(fileContents).includes('recipes')) {
 	            for (const recipeKey of Object.keys(fileContents.recipes)) {
-	                for (const recipe of fileContents.recipes[recipeKey]) {
-	                    addElementToCrafts({
-	                        text: recipe[0].text,
-	                        emoji: recipe[0].emoji,
-	                    }, {
-	                        text: recipe[1].text,
-	                        emoji: recipe[1].emoji,
-	                    }, recipeKey);
+	                if (recipeKey !== 'Nothing') {
+	                    for (const recipe of fileContents.recipes[recipeKey]) {
+	                        if (recipe[0].text !== recipeKey && recipe[1].text !== recipeKey) {
+	                            addElementToCrafts({
+	                                text: recipe[0].text,
+	                                emoji: recipe[0].emoji,
+	                            }, {
+	                                text: recipe[1].text,
+	                                emoji: recipe[1].emoji,
+	                            }, recipeKey, true);
+	                        }
+	                    }
 	                }
 	            }
+	            await GM.setValue('recipes', JSON.stringify(fileContents.recipes));
 	        }
 	        await resetDiscoveries();
 	        const discoveredElements = cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow).filter((el) => el.discovered === true);
@@ -914,8 +932,9 @@
 	        await resetPinnedElements();
 	        if (Object.keys(fileContents).includes('pinned')) {
 	            for (let pinnedElement of fileContents.pinned) {
-	                pinElement(cloneInto(pinnedElement, unsafeWindow));
+	                pinElement(cloneInto(pinnedElement, unsafeWindow), true);
 	            }
+	            await GM.setValue('pinned', JSON.stringify(fileContents.pinned));
 	        }
 	    });
 	    const downloadContainer = document.createElement('div');
