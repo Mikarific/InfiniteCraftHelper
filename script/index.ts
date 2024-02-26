@@ -3,6 +3,7 @@ import * as favicon from './favicon';
 import * as styles from './styles';
 import * as mutations from './lib/mutations';
 import * as settings from './settings';
+import * as expand from './expand';
 import * as save from './save';
 import * as search from './search';
 import * as pinned from './pinned';
@@ -68,6 +69,7 @@ window.addEventListener(
 		styles.init(elements);
 		mutations.init(elements);
 		settings.init(elements);
+		expand.init(elements);
 		save.init(elements);
 		search.init(elements);
 		pinned.init(elements);

@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.0.8
+// @version			2.1.0
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -46,7 +46,7 @@
 	        return 1;
 	    return current.localeCompare(latest, undefined, { numeric: true, sensitivity: 'case', caseFirst: 'upper' }) === -1;
 	}
-	function init$c(elements) {
+	function init$d(elements) {
 	    GM.xmlHttpRequest({
 	        method: 'GET',
 	        url: `https://github.com/Mikarific/InfiniteCraftHelper/raw/main/gorilla.json`,
@@ -97,7 +97,7 @@
 	    });
 	}
 
-	function init$b(elements) {
+	function init$c(elements) {
 	    if (elements.favicon !== null) {
 	        const whiteFaviconLink = elements.favicon.cloneNode();
 	        elements.favicon.media = '(prefers-color-scheme:light)';
@@ -137,6 +137,13 @@
         border: 1px solid var(--border-hover);
     }
 
+    @media screen and (min-width: 1150px) {
+        .item {
+            font-size: 16.4px;
+            padding: 9px 10px 8px;
+        }
+    }
+
     .pinned {
         max-width: 900px;
         margin-left: auto;
@@ -159,6 +166,19 @@
         pointer-events: none;
     }
 
+    .sidebar {
+        width: var(--sidebar) !important;
+    }
+
+    .resize-bar {
+        position: absolute;
+        height: 100%;
+        width: 5px;
+        right: calc(var(--sidebar) - 3px);
+        z-index: 10;
+        cursor: ew-resize;
+    }
+
     .sidebar-header {
         display: flex;
         position: sticky;
@@ -173,6 +193,10 @@
         border-bottom: 1px;
         border-style: solid;
         border-color: var(--border);
+    }
+
+    .sidebar-search {
+        width: 100%;
     }
 
     .sidebar-input {
@@ -258,10 +282,15 @@
         z-index: 1;
     }
 
+    .logo {
+        width: 85px !important;
+        right: calc(var(--sidebar) + 15px) !important;
+    }
+
     .version {
         position: fixed;
-        top: 80px;
-        right: 320px;
+        top: 85px;
+        right: calc(var(--sidebar) + 15px);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -271,14 +300,8 @@
         font-size: 11px;
     }
 
-    @media screen and (min-width: 1150px) {
-        .version {
-            top: 85px;
-            right: 362px;
-        }
-    }
-
     .side-controls {
+        right: calc(var(--sidebar) + 9px) !important;
         z-index: 1;
     }
 
@@ -356,6 +379,13 @@
         color: var(--text);
     }
 
+    @media screen and (min-width: 1150px) {
+        .display-item {
+            font-size: 16.4px;
+            padding: 9px 10px 8px;
+        }
+    }
+
     .recipe {
         display: flex;
         align-items: center;
@@ -401,7 +431,7 @@
         pointer-events: none;
     }
 `;
-	function init$a(elements) {
+	function init$b(elements) {
 	    elements.styles.appendChild(document.createTextNode(css.trim()));
 	    document.getElementsByTagName('head')[0].appendChild(elements.styles);
 	}
@@ -463,7 +493,7 @@
 	const craftsTitle = document.createElement('h1');
 	const craftsContainer = document.createElement('div');
 	let recipes = {};
-	async function init$9(elements) {
+	async function init$a(elements) {
 	    craftsModal.classList.add('modal');
 	    elements.container.appendChild(craftsModal);
 	    const craftsHeader = document.createElement('div');
@@ -594,7 +624,7 @@
 	const discoveriesModal = document.createElement('dialog');
 	const discoveriesHeader = document.createElement('div');
 	const discoveriesEmpty = document.createElement('div');
-	function init$8(elements) {
+	function init$9(elements) {
 	    const discoveriesImage = document.createElement('img');
 	    discoveriesImage.src = discoveriesIcon.trim();
 	    discoveriesImage.classList.add('discoveries-icon');
@@ -652,7 +682,7 @@
 	}
 
 	let contributeToDatabase = false;
-	function init$7(elements) {
+	function init$8(elements) {
 	    const settingsDetails = document.createElement('details');
 	    settingsDetails.classList.add('settings-details');
 	    elements.sidebarHeader.appendChild(settingsDetails);
@@ -701,7 +731,7 @@
 	const pinnedContainer = document.createElement('div');
 	const pinnedTitle = document.createElement('div');
 	let pinnedElements = [];
-	async function init$6(elements) {
+	async function init$7(elements) {
 	    pinnedContainer.classList.add('pinned');
 	    pinnedTitle.classList.add('pinned-title');
 	    pinnedTitle.appendChild(document.createTextNode('Pinned Elements'));
@@ -765,7 +795,7 @@
 	    await GM.setValue('pinned', '[]');
 	}
 
-	function init$5(elements) {
+	function init$6(elements) {
 	    // Detect when fetch is monkeypatched because a certain someone made a tool to upload fake recipes.
 	    const iframe = document.createElement('iframe');
 	    document.body.appendChild(iframe);
@@ -856,6 +886,45 @@
 	            await resetCrafts();
 	            location.reload();
 	        }
+	    });
+	}
+
+	let sidebarSize = 0;
+	let resizing = false;
+	function init$5(elements) {
+	    sidebarSize = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize > 310 ? 350 : 305;
+	    document.documentElement.style.setProperty('--sidebar', `${sidebarSize}px`);
+	    const resizeBar = document.createElement('div');
+	    resizeBar.classList.add('resize-bar');
+	    elements.sidebar.after(resizeBar);
+	    resizeBar.addEventListener('mousedown', () => {
+	        resizing = true;
+	    });
+	    window.addEventListener('mousemove', (e) => {
+	        if (resizing) {
+	            sidebarSize = Math.min(Math.min(Math.max(window.innerWidth - e.clientX, 305), 900), window.innerWidth - 100);
+	            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize = sidebarSize;
+	            document.documentElement.style.setProperty('--sidebar', `${sidebarSize}px`);
+	            for (const instance of unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances) {
+	                unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].dropElement(instance);
+	            }
+	        }
+	    });
+	    window.addEventListener('mouseup', () => {
+	        resizing = false;
+	    });
+	    window.removeEventListener('resize', unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].onResize);
+	    window.addEventListener('resize', () => {
+	        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize = sidebarSize;
+	        for (const instance of unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances) {
+	            instance.width || unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(instance),
+	                instance.left + instance.width + 10 > window.innerWidth - sidebarSize &&
+	                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(instance, window.innerWidth - sidebarSize - instance.width - 10, instance.top),
+	                instance.top + instance.height + 10 > window.innerHeight &&
+	                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(instance, instance.left, window.innerHeight - instance.height - 10);
+	        }
+	        // instance = instance.wrappedJSObject === undefined ? instance : instance.wrappedJSObject;
+	        unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].checkControlsBlur();
 	    });
 	}
 
@@ -1896,17 +1965,18 @@
 	        logo: document.querySelector('.logo'),
 	    };
 	    elements.items.before(elements.sidebarHeader);
+	    init$d(elements);
 	    init$c(elements);
 	    init$b(elements);
-	    init$a(elements);
+	    init$6(elements);
+	    init$8(elements);
 	    init$5(elements);
-	    init$7(elements);
 	    init$4(elements);
 	    init$3(elements);
-	    init$6(elements);
+	    init$7(elements);
 	    init$2(elements);
-	    await init$9(elements);
-	    init$8(elements);
+	    await init$a(elements);
+	    init$9(elements);
 	    init$1(elements);
 	    init(elements);
 	}, false);

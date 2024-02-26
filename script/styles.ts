@@ -30,6 +30,13 @@ const css = `
         border: 1px solid var(--border-hover);
     }
 
+    @media screen and (min-width: 1150px) {
+        .item {
+            font-size: 16.4px;
+            padding: 9px 10px 8px;
+        }
+    }
+
     .pinned {
         max-width: 900px;
         margin-left: auto;
@@ -52,6 +59,19 @@ const css = `
         pointer-events: none;
     }
 
+    .sidebar {
+        width: var(--sidebar) !important;
+    }
+
+    .resize-bar {
+        position: absolute;
+        height: 100%;
+        width: 5px;
+        right: calc(var(--sidebar) - 3px);
+        z-index: 10;
+        cursor: ew-resize;
+    }
+
     .sidebar-header {
         display: flex;
         position: sticky;
@@ -66,6 +86,10 @@ const css = `
         border-bottom: 1px;
         border-style: solid;
         border-color: var(--border);
+    }
+
+    .sidebar-search {
+        width: 100%;
     }
 
     .sidebar-input {
@@ -151,10 +175,15 @@ const css = `
         z-index: 1;
     }
 
+    .logo {
+        width: 85px !important;
+        right: calc(var(--sidebar) + 15px) !important;
+    }
+
     .version {
         position: fixed;
-        top: 80px;
-        right: 320px;
+        top: 85px;
+        right: calc(var(--sidebar) + 15px);
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
@@ -164,14 +193,8 @@ const css = `
         font-size: 11px;
     }
 
-    @media screen and (min-width: 1150px) {
-        .version {
-            top: 85px;
-            right: 362px;
-        }
-    }
-
     .side-controls {
+        right: calc(var(--sidebar) + 9px) !important;
         z-index: 1;
     }
 
@@ -247,6 +270,13 @@ const css = `
         line-height: 1em;
         white-space: nowrap;
         color: var(--text);
+    }
+
+    @media screen and (min-width: 1150px) {
+        .display-item {
+            font-size: 16.4px;
+            padding: 9px 10px 8px;
+        }
     }
 
     .recipe {
