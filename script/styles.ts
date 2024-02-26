@@ -147,18 +147,6 @@ const css = `
         display: none;
     }
 
-    .search-hidden {
-        height: 0px !important;
-        border: 0px !important;
-        font-size: 0px !important;
-        margin: 0px !important;
-        visibility: hidden;
-    }
-
-    .search-hidden .item-emoji {
-        font-size: 0px;
-    }
-
     .site-title {
         z-index: 1;
     }
