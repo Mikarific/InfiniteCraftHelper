@@ -3,7 +3,7 @@
 // @name			Infinite Craft Helper
 // @namespace		mikarific.com
 // @match			https://neal.fun/infinite-craft/*
-// @version			2.1.2
+// @version			2.1.3
 // @author			Mikarific
 // @description		A script that adds various useful features to Infinite Craft.
 // @icon			https://i.imgur.com/WlkWOkU.png
@@ -198,6 +198,7 @@
         border-bottom: 1px;
         border-style: solid;
         border-color: var(--border-color);
+        z-index: 1;
     }
 
     .sidebar-search {

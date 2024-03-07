@@ -87,6 +87,7 @@ const css = `
         border-bottom: 1px;
         border-style: solid;
         border-color: var(--border-color);
+        z-index: 1;
     }
 
     .sidebar-search {
