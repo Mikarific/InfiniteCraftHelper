@@ -61,6 +61,7 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 									'mouseup',
 									exportFunction((e: MouseEvent) => {
 										if (
+                                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance &&
 											!unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved
 										) {
 											unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved =
