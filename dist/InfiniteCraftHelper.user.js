@@ -485,7 +485,8 @@
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, e.clientX - width / 2, e.clientY - height / 2);
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance, data.id);
 	                            unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.elem.addEventListener('mouseup', exportFunction((e) => {
-	                                if (!unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved) {
+	                                if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance &&
+	                                    !unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved) {
 	                                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved =
 	                                        true;
 	                                    unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance);
