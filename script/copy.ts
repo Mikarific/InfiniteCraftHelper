@@ -18,7 +18,7 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 							e.target.classList.contains('instance-discovered-text') ||
 							e.target.classList.contains('instance-discovered-emoji'))
 					) {
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].playInstanceSound();
 						const targetElement = e.target.classList.contains('instance-discovered-emoji')
 							? (e.target.parentElement?.parentElement as HTMLDivElement)
 							: e.target.classList.contains('instance-discovered-text')
@@ -26,7 +26,7 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 							: (e.target as HTMLDivElement);
 						const { x, y, width, height } = targetElement.getBoundingClientRect();
 						const data = {
-							id: unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instanceId++,
+							id: unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.instanceId++,
 							text: targetElement.childNodes[1].textContent?.trim(),
 							emoji: targetElement.childNodes[0].textContent?.trim(),
 							discovered: targetElement.classList.contains('instance-discovered'),
@@ -38,42 +38,42 @@ export function setMiddleClickOnMutations(mutations: MutationRecord[], elements:
 							hasMoved: false,
 							fromPanel: false,
 						};
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance = cloneInto(
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance = cloneInto(
 							data,
 							unsafeWindow,
 						);
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances.push(
-							unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.instances.push(
+							unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance,
 						);
 
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].$nextTick(
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].$nextTick(
 							exportFunction(() => {
-								unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(
-									unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+								unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].setInstancePosition(
+									unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance,
 									e.clientX - width / 2,
 									e.clientY - height / 2,
 								);
-								unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstanceZIndex(
-									unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+								unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].setInstanceZIndex(
+									unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance,
 									data.id,
 								);
-								unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.elem.addEventListener(
+								unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance.elem.addEventListener(
 									'mouseup',
 									exportFunction((e: MouseEvent) => {
 										if (
-											!unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved
+											!unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance.hasMoved
 										) {
-											unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance.hasMoved =
+											unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance.hasMoved =
 												true;
-											unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(
-												unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.selectedInstance,
+											unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].calcInstanceSize(
+												unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.selectedInstance,
 											);
 										}
 									}, unsafeWindow),
 								);
 							}, unsafeWindow),
 						);
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.mouseDown = true;
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.mouseDown = true;
 					}
 				});
 			}

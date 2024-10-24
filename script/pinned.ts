@@ -30,7 +30,7 @@ export async function init(elements: elements) {
 		elementDiv.appendChild(document.createTextNode(` ${pinnedElement.text} `));
 
 		elementDiv.addEventListener('mousedown', (e) => {
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(
+			unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].selectElement(
 				e,
 				cloneInto(pinnedElement, unsafeWindow),
 			);
@@ -44,7 +44,7 @@ export async function init(elements: elements) {
 
 export async function pinElement(element: { text: string; emoji?: string; discovered: boolean }, loading = false) {
 	if (pinnedElements.find((el) => el.text === element.text) === undefined) {
-		if (!loading) unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].playInstanceSound();
+		if (!loading) unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].playInstanceSound();
 		const elementDiv = document.createElement('div');
 		elementDiv.classList.add('item');
 		const elementEmoji = document.createElement('span');
@@ -53,14 +53,14 @@ export async function pinElement(element: { text: string; emoji?: string; discov
 		elementDiv.appendChild(elementEmoji);
 		elementDiv.appendChild(document.createTextNode(` ${element.text} `));
 		elementDiv.addEventListener('mousedown', (e) => {
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement(e, element);
+			unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].selectElement(e, element);
 		});
 		pinnedContainer.appendChild(elementDiv);
 		if (pinnedElements.length === 0) pinnedContainer.style.display = '';
 		pinnedElements.push(element);
 		if (!loading) await GM.setValue('pinned', JSON.stringify(pinnedElements));
 	} else {
-		if (!loading) unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.deleteSound.play();
+		if (!loading) unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.deleteSound.play();
 		const elementDiv = Array.from(pinnedContainer.querySelectorAll('.item')).find(
 			(el) => el.childNodes[1].textContent?.trim() === element.text,
 		);

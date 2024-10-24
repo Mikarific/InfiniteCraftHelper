@@ -43,7 +43,7 @@ export function init(elements: elements) {
 	discoveriesModal.appendChild(discoveriesEmpty);
 
 	const discoveredElements = cloneInto(
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements,
 		unsafeWindow,
 	).filter((el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true);
 

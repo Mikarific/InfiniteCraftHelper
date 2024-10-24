@@ -18,8 +18,8 @@ export function init(elements: elements) {
 	iframe.remove();
 
 	// New Element Crafted
-	const getCraftResponse = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse;
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].getCraftResponse = exportFunction(
+	const getCraftResponse = unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].getCraftResponse;
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].getCraftResponse = exportFunction(
 		(...args: any) =>
 			new window.Promise(async (resolve: Function) => {
 				const response = await getCraftResponse(...args);
@@ -87,8 +87,8 @@ export function init(elements: elements) {
 		unsafeWindow,
 	);
 
-	const selectElement = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement;
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].selectElement = exportFunction(
+	const selectElement = unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].selectElement;
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].selectElement = exportFunction(
 		(e: MouseEvent, element: { text: string; emoji?: string; discovered: boolean; wrappedJSObject?: any }) => {
 			element = element.wrappedJSObject === undefined ? element : element.wrappedJSObject;
 			if (e.button === 2) {

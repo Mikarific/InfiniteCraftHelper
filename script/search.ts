@@ -16,23 +16,23 @@ export function init(elements: elements) {
 	elements.searchBar.addEventListener('input', (e) => {
 		if (
 			(e as InputEvent).inputType === 'insertText' &&
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim().length === 1
+			unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.searchQuery.trim().length === 1
 		) {
 			elements.sidebar.scrollTo(0, 0);
 		}
 	});
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._computedWatchers.sortedElements.getter =
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._computedWatchers.sortedElements.getter =
 		exportFunction(() => {
-			const query = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery.trim();
+			const query = unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.searchQuery.trim();
 			if (query === '') {
-				const elements = [...unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements];
-				if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.showDiscoveredOnly) {
+				const elements = [...unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements];
+				if (unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.showDiscoveredOnly) {
 					return cloneInto(
 						elements.filter((el: { text: string; emoji?: string; discovered: boolean }) => el.discovered),
 						unsafeWindow,
 					);
 				}
-				if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'name') {
+				if (unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.sortBy === 'name') {
 					return cloneInto(elements, unsafeWindow).sort(
 						(
 							a: { text: string; emoji?: string; discovered: boolean },
@@ -40,7 +40,7 @@ export function init(elements: elements) {
 						) => a.text.localeCompare(b.text, undefined, { numeric: true }),
 					);
 				}
-				if (unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sortBy === 'emoji') {
+				if (unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.sortBy === 'emoji') {
 					return cloneInto(elements, unsafeWindow).sort(
 						(
 							a: { text: string; emoji?: string; discovered: boolean },
@@ -52,12 +52,12 @@ export function init(elements: elements) {
 						},
 					);
 				}
-				return unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements;
+				return unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements;
 			} else {
 				return cloneInto(
 					matchSorter(
-						cloneInto(unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements, unsafeWindow),
-						unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.searchQuery,
+						cloneInto(unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements, unsafeWindow),
+						unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.searchQuery,
 						{
 							keys: ['text'],
 						},

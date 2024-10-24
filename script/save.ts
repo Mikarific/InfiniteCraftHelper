@@ -64,7 +64,7 @@ export function init(elements: elements) {
 			}),
 		);
 
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements = cloneInto(saveFile, unsafeWindow);
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements = cloneInto(saveFile, unsafeWindow);
 
 		await resetCrafts();
 		if (Object.keys(fileContents).includes('recipes')) {
@@ -93,7 +93,7 @@ export function init(elements: elements) {
 
 		await resetDiscoveries();
 		const discoveredElements = cloneInto(
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.elements,
+			unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.elements,
 			unsafeWindow,
 		).filter((el: { text: string; emoji?: string; discovered: boolean }) => el.discovered === true);
 		for (const discoveredElement of discoveredElements) {

@@ -11,29 +11,29 @@ function onResize() {
 	sidebarSize =
 		window.innerWidth > 800 ? Math.min(Math.min(Math.max(sidebarSize, 305), 900), window.innerWidth - 100) : 0;
 	document.documentElement.style.setProperty('--sidebar-size', `${sidebarSize}px`);
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize = sidebarSize;
-	for (const instance of unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.instances) {
-		instance.width || unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].calcInstanceSize(instance),
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.sidebarSize = sidebarSize;
+	for (const instance of unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.instances) {
+		instance.width || unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].calcInstanceSize(instance),
 			instance.left + instance.width + 10 > window.innerWidth - sidebarSize &&
-				unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(
+				unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].setInstancePosition(
 					instance,
 					window.innerWidth - sidebarSize - instance.width - 10,
 					instance.top,
 				),
 			instance.top + instance.height + 10 > window.innerHeight &&
-				unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].setInstancePosition(
+				unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].setInstancePosition(
 					instance,
 					instance.left,
 					window.innerHeight - instance.height - 10,
 				);
 	}
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].checkControlsBlur();
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].checkControlsBlur();
 }
 
 export function init(elements: elements) {
 	sidebarSize =
 		window.innerWidth > 800
-			? unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize > 310
+			? unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.sidebarSize > 310
 				? 350
 				: 305
 			: 0;
@@ -53,7 +53,7 @@ export function init(elements: elements) {
 				window.innerWidth > 800
 					? Math.min(Math.min(Math.max(window.innerWidth - e.clientX, 305), 900), window.innerWidth - 100)
 					: 13;
-			unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.sidebarSize = sidebarSize;
+			unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.sidebarSize = sidebarSize;
 			document.documentElement.style.setProperty('--sidebar-size', `${sidebarSize}px`);
 			onResize();
 		}
@@ -63,6 +63,6 @@ export function init(elements: elements) {
 		resizing = false;
 	});
 
-	window.removeEventListener('resize', unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].onResize);
+	window.removeEventListener('resize', unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].onResize);
 	window.addEventListener('resize', onResize);
 }

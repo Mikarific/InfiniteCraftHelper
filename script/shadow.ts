@@ -42,12 +42,12 @@ export async function init(elements: elements) {
 
 	await GM.setValue('theme', theme);
 
-	if (theme === 'light' && unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.isDarkMode) {
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode();
-	} else if (theme === 'shadow' && !unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.isDarkMode) {
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode();
-	} else if (theme === 'dark' && !unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0]._data.isDarkMode) {
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode();
+	if (theme === 'light' && unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.isDarkMode) {
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode();
+	} else if (theme === 'shadow' && !unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.isDarkMode) {
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode();
+	} else if (theme === 'dark' && !unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0]._data.isDarkMode) {
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode();
 	}
 
 	if (theme === 'shadow') {
@@ -60,8 +60,8 @@ export async function init(elements: elements) {
 	if (theme === 'dark') darkModeIcon.src = '/infinite-craft/dark-mode-on.svg';
 	elements.darkModeIcon.parentNode?.replaceChild(darkModeIcon, elements.darkModeIcon);
 
-	const toggleDarkMode = unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode;
-	unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode = exportFunction(async () => {
+	const toggleDarkMode = unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode;
+	unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode = exportFunction(async () => {
 		if (theme === 'light') {
 			toggleDarkMode();
 			darkModeIcon.src = shadowIcon;
@@ -81,6 +81,6 @@ export async function init(elements: elements) {
 
 	darkModeIcon.addEventListener(
 		'click',
-		unsafeWindow.$nuxt.$root.$children[2].$children[0].$children[0].toggleDarkMode,
+		unsafeWindow.$nuxt.$root.$children[1].$children[0].$children[0].toggleDarkMode,
 	);
 }
